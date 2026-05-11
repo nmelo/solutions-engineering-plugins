@@ -5,7 +5,7 @@ description: >
   binary success criteria, scope guardrails, stakeholders, validation
   environment, and timeline — co-created with the project sponsor in a single
   90-minute meeting, then pressure-tested against the four ways evals quietly
-  fail. Use when scoping a POC, prepping an eval kickoff, drafting an
+  fail. Use when scoping a POC, preparing for an eval kickoff, drafting an
   evaluation brief, or sanity-checking a plan a sponsor sent over. Triggers on
   "draft an eval plan", "POV plan", "evaluation brief", "how should I scope
   this POC", "eval kickoff", "success criteria for this eval", or "POC scope".
@@ -19,7 +19,7 @@ Produce a written evaluation plan for a customer POC or POV — the artifact the
 
 Fire on requests like:
 
-- "Help me draft an eval plan for [account]." The SE is prepping the planning meeting and wants a strong starting point.
+- "Help me draft an eval plan for [account]." The SE is preparing for the planning meeting and wants a strong starting point.
 - "Sponsor sent over their version of the POV plan — can you sanity-check it?" Review pass against the six fields and the four detectors.
 - "How should I scope this POC?" The user is upstream of planning; verify the business decision exists (see Workflow step 1) before drafting.
 
@@ -33,7 +33,7 @@ Run these steps in order. Each can halt and ask the user a question; halting is 
 
 Open with a holistic 4-beat paragraph — the SE walking in deserves a teammate's acknowledgment before any structured tool fires. Then run the upstream questionnaire as described below.
 
-**The 4-beat opening.** The four beats are scaffolding for *how to think about* the opener; the SE sees one short paragraph (4–5 sentences, no labels, no numbers, no line breaks between beats). The four beats are:
+**The 4-beat opening.** The four beats are scaffolding for *how to think about* the opener; the SE sees three short paragraphs — situation acknowledgment, outcome, and contract + ready transition — with visible whitespace between them, no labels, no numbers. The four beats are:
 
 1. **Situation acknowledgment.** Name what the SE is doing right now, in their voice. Adapts to context.
 2. **Brief outcome.** One sentence — what the SE walks away with.
@@ -51,15 +51,27 @@ If context is ambiguous, lean toward planning-meeting prep — it's the more com
 
 *For planning-meeting prep:*
 
-> OK, eval planning — you're prepping for the meeting where you and the sponsor co-create the plan live. Let me help you walk in with a strong starting position. By the end you'll have a six-field eval plan plus a planning-meeting agenda — both paste-ready for your eval-management tool. I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start with where you are with the sponsor.
+> OK, eval planning — you're preparing for the meeting where you and the sponsor co-create the plan live. Let me help you walk in with a strong starting position.
+>
+> By the end you'll have your eval plan drafted — the business decision, success criteria, scope in and out, named stakeholders, validation environment, and a timeline with checkpoints. Plus the agenda for the planning meeting itself. All paste-ready.
+>
+> I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start with where you are with the sponsor.
 
 *For sanity-check on a sponsor draft:*
 
-> Got it, sanity-check pass on a draft your sponsor sent over. Let me work through it with you against where evals quietly go off the rails. By the end you'll have a six-field eval plan plus a planning-meeting agenda — both paste-ready for your eval-management tool. I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start by checking what the draft says on the three things every eval has to answer.
+> Got it, sanity-check pass on a draft your sponsor sent over. Let me work through it with you against where evals quietly go off the rails.
+>
+> By the end you'll have your eval plan — the business decision, success criteria, scope in and out, named stakeholders, validation environment, and a timeline with checkpoints. Plus the agenda for the planning meeting itself. All paste-ready.
+>
+> I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start by checking what the draft says on the three things every eval has to answer.
 
 Wait for the SE's acknowledgment of the ready check before running the AskUserQuestion below.
 
 The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decision-maker who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
+
+**Say to the SE before the call.** Emit this preamble verbatim before firing the AskUserQuestion tool:
+
+> *Three questions before we draft anything. Without these locked, an eval can pass every criterion and still produce "interesting results, let's talk again" — not a commitment. They thread through every field that follows.*
 
 **How to elicit.** Use Claude's built-in `AskUserQuestion` tool. It presents 2-4 clickable options per question, automatically appends a free-text "Other" field, and accepts up to four questions in one call. Make a single call with three questions, one per upstream item. `multiSelect` stays off — each question wants one answer. Do not add an "Other" option manually; the tool provides it.
 
@@ -85,6 +97,17 @@ The skill needs three answers locked in before drafting: (a) the specific deal o
 
 Only proceed to Step 2 when all three items are answered concretely, or when the SE has explicitly acknowledged the gap(s) and asked for the partial-plan fallback.
 
+**Thread-specifics — two prose questions before per-field drafting.** When all three upstream answers come back concrete, emit:
+
+> *Three concrete answers, no gaps — we can move to drafting. Before we start, two specifics that'll thread through the whole plan.*
+
+Then ask the SE in prose:
+
+- **Q-end specificity — conditional.** Only ask if the anchor-date answer was "Budget close / Q-end planning" or otherwise Q-end-flavored without a specific date. Phrasing: *"Which Q-end? Budget close / Q-end planning could be this quarter or next. Give me the specific budget-close or Q-end date the exec sponsor is feeding this decision into."* If the SE already provided a specific date in the upstream answer, skip this question.
+- **Customer name — always ask.** Phrasing: *"Customer name for the plan header (so the artifact is paste-ready when we finish)."*
+
+Both answers come from the SE in plain prose — no AskUserQuestion needed. Once in hand, substitute the customer name into subsequent user-facing prose (replacing any `[customer]` placeholder) and resolve the anchor date to the specific Q-end date in the business-decision sentence.
+
 ### 2. Draft the six fields, one consultative beat at a time
 
 Step 2 runs as six consultative beats — one per field. Each beat is: preamble → AskUserQuestion → draft → confirm. **Pure ask-first: do not draft any field's content before that field's AskUserQuestion answer is in hand.** No strawman-and-edit. No hybrid. The structured option sets for each beat live in `references/per-field-questions.md`; Claude reads the corresponding block before each AskUserQuestion call.
@@ -94,6 +117,10 @@ Each beat applies the structure below.
 #### 2.1 Business decision
 
 **Preamble.** The business decision is the spine of the plan — one sentence the entire eval resolves to. Step 1 gave us the decision-maker, the deal outcome, and the anchor date. What's missing is the IF clause: the observable state at wrap-up that resolves true (or false). Don't draft the sentence yet — get the IF clause from the SE first.
+
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Business decision next — the sentence the whole plan resolves to. Anchors every criterion that follows, and names what the sponsor signs for.*
 
 **Ask.** Read §2.1 of `references/per-field-questions.md` for the question text, header chip, and 4 illustrative option labels + descriptions. Make a single AskUserQuestion call with `multiSelect: false`. The automatic "Other" free-text field is where the real answer often lands — do not add it manually.
 
@@ -105,7 +132,11 @@ Each beat applies the structure below.
 
 **Preamble.** Three to five binary pass/fail items. Each names a specific behavior under named conditions, runs against the customer's own data and environment, and resolves to true or false without interpretation. *"Improves auth speed"* is not a criterion. *"Completes the auth flow against the customer's top-five enterprise apps in their staging tenant with sub-second p95 latency"* is. Don't draft criteria yet — find out which scenario anchors this eval first.
 
-**Ask.** Read §2.2 of `references/per-field-questions.md`. Before the call, set expectation in one line of prose: *"We'll draft criteria one at a time after this — you can add adjacent scenarios as we go."* Then make the AskUserQuestion call with `multiSelect: false`. The SE's primary scenario anchors criterion 1; additional scenarios surface via prose follow-up in the draft step.
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Success criteria next. Three to five binary pass/fail items run against the customer's own data and environment — these are what wrap-up measures the eval against. We'll draft them one at a time after this; you can add adjacent scenarios as we go.*
+
+**Ask.** Read §2.2 of `references/per-field-questions.md`. Make the AskUserQuestion call with `multiSelect: false`. The SE's primary scenario anchors criterion 1; additional scenarios surface via prose follow-up in the draft step.
 
 **Draft.** Draft criterion 1 against the SE's primary scenario, then ask one prose follow-up per additional criterion ("What's the next scenario that needs to be a pass/fail item?") until 3-5 criteria are locked. After each criterion, name the specific behavior, the customer-environment conditions, and the measurable threshold. If the SE proposes more than five, name the Two-Week Flame trigger explicitly and ask which two should be moved to post-purchase rollout. If the SE proposes fewer than three after the prose follow-ups, mark `[NEEDS: criterion 2]` (or 3) rather than padding.
 
@@ -114,6 +145,10 @@ Each beat applies the structure below.
 #### 2.3 Scope guardrails
 
 **Preamble.** Items the customer asked about during discovery that aren't on the path to the business decision belong here, each paired with a one-line reason it's excluded and where it goes instead ("parked for post-purchase rollout," "covered in a separate workstream"). Walking in with this list pre-drafted is what makes scope creep harder in the planning meeting itself. Don't draft items yet — get the dominant out-of-scope category from the SE first.
+
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Scope next. What's explicitly out of scope makes scope creep harder when the sponsor pushes during the meeting.*
 
 **Ask.** Read §2.3 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
 
@@ -125,15 +160,23 @@ Each beat applies the structure below.
 
 **Preamble.** Every name on the stakeholder list has three attached items: role label (security, IT, identity, compliance, app owner, exec sponsor), stated interest (what they need the eval to show before they sign off), and the specific checkpoint or wrap-up they will be in the room for. `TBD` is not acceptable. The project sponsor stays on through wrap-up — confirmed verbally, not over email. The security or risk owner is named explicitly; their absence is the most common reason a technical win does not convert. Don't draft the stakeholder table yet — find out who's actually engaged so far.
 
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Stakeholders next. Who's in the room shapes who can approve, who can veto, and who shows up when results land. A name missing here is often the loss the eval can't close on its own.*
+
 **Ask.** Read §2.4 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
 
-**Draft.** If the SE picked "Sponsor + technical" (Option 1) — Empty Chair is pre-triggering. Before drafting the stakeholder list, surface the Empty Chair warning from `references/anti-patterns.md` §2 *inside this beat*, and ask the prose follow-up: *"Before we draft this field, who on the security side needs to be in?"* If the SE can name a security/risk counterpart, add them to the draft list. If they can't, the stakeholder field carries `[NEEDS: security/risk audience]` and the Empty Chair warning rides with the plan into Step 3 (where the detector also fires structurally — defense in depth). For any other Option, draft the stakeholder table with role + stated interest + committed meeting per named contact.
+**Draft.** If the SE picked "Sponsor + technical" (Option 1) — Empty Chair is pre-triggering. Before drafting the stakeholder list, surface the Empty Chair warning from `references/anti-patterns.md` §2 *inside this beat*, and ask the prose follow-up: *"Before we draft the stakeholder list, who on the security side needs to be in?"* If the SE can name a security/risk counterpart, add them to the draft list. If they can't, the stakeholder field carries `[NEEDS: security/risk audience]` and the Empty Chair warning rides with the plan into Step 3 (where the detector also fires structurally — defense in depth). For any other Option, draft the stakeholder table with role + stated interest + committed meeting per named contact.
 
 **Confirm.** Surface the full table and ask in prose: *"Each role has a named person, a stated interest, and a meeting they're committed to. Anyone missing or any `TBD` we need to close before kickoff?"* Two-iteration safety valve. Lock the field and proceed to 2.5.
 
 #### 2.5 Validation environment
 
 **Preamble.** The plan describes the test environment with enough detail to prove it's been thought through: integration surface (every named system the product will touch, by category and version), auth flow path (direction, credentials, boundaries crossed), test data set (real users, test users, anonymized production, synthetic — named), and sandbox-vs-production posture. *"Their stack"* is not a description. Production is the second event, after the sandbox tests pass. Don't draft the environment field yet — find out where the eval actually runs.
+
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Validation environment next. Where the eval actually runs decides whether what works in your sandbox translates to what works in the customer's network. The customer will see any boundary failure as a product failure, so this section gets specific.*
 
 **Ask.** Read §2.5 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
 
@@ -144,6 +187,10 @@ Each beat applies the structure below.
 #### 2.6 Timeline and checkpoints
 
 **Preamble.** Kickoff lands within one week of the planning meeting; wrap-up sits two to three weeks after kickoff, never longer, with the decision-maker attending; checkpoints run every two to three days, not "as needed"; the same-day internal recap with the AE is non-negotiable. Don't draft the timeline yet — find out what shape the SE thinks this eval needs to fit.
+
+**Say to the SE before the call.** Emit a short preamble naming what this question is doing for the SE, e.g.:
+
+> *Timeline next. Long evals lose momentum; the cadence is what keeps the conversation accountable through to a commitment at wrap-up.*
 
 **Ask.** Read §2.6 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
 

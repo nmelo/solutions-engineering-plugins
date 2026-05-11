@@ -70,7 +70,7 @@ The SE's answer anchors the first scope-out item. In the draft step, Claude asks
 | 3 | Sponsor + exec | Sponsor plus a higher decision-maker (often the budget owner). |
 | 4 | Multi-function team | Sponsor plus security, IT, compliance, and app owners — broad coverage. |
 
-If the SE picks Option 1 (Sponsor + technical), the Empty Chair detector is pre-triggering — surface its warning *inside this beat* before drafting the stakeholder list. The draft step then asks one prose follow-up: "Before we draft this field, who on the security side needs to be in?" If the SE can't name one, the stakeholder field carries `[NEEDS: security/risk audience]` and the Empty Chair warning rides with the plan into Step 3 (where the detector also fires structurally — defense in depth).
+If the SE picks Option 1 (Sponsor + technical), the Empty Chair detector is pre-triggering — surface its warning *inside this beat* before drafting the stakeholder list. The draft step then asks one prose follow-up: "Before we draft the stakeholder list, who on the security side needs to be in?" If the SE can't name one, the stakeholder field carries `[NEEDS: security/risk audience]` and the Empty Chair warning rides with the plan into Step 3 (where the detector also fires structurally — defense in depth).
 
 ## 2.5 — Validation environment (test bed shape)
 
