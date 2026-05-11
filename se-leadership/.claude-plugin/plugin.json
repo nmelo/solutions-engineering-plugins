@@ -1,0 +1,8 @@
+{
+  "name": "se-leadership",
+  "version": "0.1.0",
+  "description": "Helps SE managers and enablement leads extract learning from sales-cycle outcomes — starting with reading a Technical Loss's Evaluation Readout against the original Execution Plan to surface planning-stage failures the loss made visible.",
+  "author": {
+    "name": "nmelo"
+  }
+}
