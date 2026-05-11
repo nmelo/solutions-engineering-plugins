@@ -57,16 +57,86 @@ The skill needs three answers locked in before drafting: (a) the specific deal o
 
 Only proceed to Step 2 when all three items are answered concretely, or when the SE has explicitly acknowledged the gap(s) and asked for the partial-plan fallback.
 
-### 2. Draft the six fields
+### 2. Draft the six fields, one consultative beat at a time
 
-Fill each field against the user's situation. If material for a field is missing, mark it `[NEEDS: <what's missing>]` rather than inventing content.
+Step 2 runs as six consultative beats — one per field. Each beat is: preamble → AskUserQuestion → draft → confirm. **Pure ask-first: do not draft any field's content before that field's AskUserQuestion answer is in hand.** No strawman-and-edit. No hybrid. The structured option sets for each beat live in `references/per-field-questions.md`; Claude reads the corresponding block before each AskUserQuestion call.
 
-- **Business decision** — one sentence, in the form: `If [observable outcome] is true at wrap-up, [named decision-maker] will [specific deal outcome] by [date].` Every other field exists to make this sentence resolvable.
-- **Binary success criteria** — three to five pass/fail items. Each names a specific behavior under named conditions, runs against the customer's own data and environment, and resolves to true or false without interpretation. *"Improves auth speed"* is not a criterion. *"Completes the auth flow against the customer's top-five enterprise applications in their staging tenant with sub-second latency at the 95th percentile"* is.
-- **Scope guardrails** — items explicitly out of scope, each with a one-line reason. Items the customer asked about during discovery that aren't on the path to the business decision go here, paired with where they go instead ("parked for post-purchase rollout," "covered in a separate workstream"). The SE walks in with this list already drafted; it makes scope creep harder.
-- **Stakeholders** — every name has three attached items: role label (security, IT, identity, compliance, app owner, exec sponsor), stated interest (what they need the eval to show before they sign off), and the specific checkpoint or wrap-up they will be in the room for. `TBD` is not acceptable; flag the gap. The project sponsor stays on through wrap-up — confirmed verbally, not over email. The security or risk owner is named explicitly; their absence is the most common reason a technical win does not convert.
-- **Validation environment** — integration surface (every named system the product will touch, by category and version), auth flow path (direction, credentials, boundaries), test data set (real users, test users, anonymized production, synthetic — be specific), and sandbox-vs-production posture. *"Their stack"* is not a description. Production is the second event, after the sandbox tests pass.
-- **Timeline and checkpoints** — kickoff within one week of the planning meeting; wrap-up two to three weeks after kickoff, never longer, with the decision-maker attending; checkpoints every two to three days, not "as needed"; same-day internal recap with the AE.
+Before any field drafting begins, emit the orientation preamble below verbatim, then wait for the SE's acknowledgment.
+
+**Orientation preamble.**
+
+> Here's how we'll build this together. Four phases, roughly 10–15 minutes end-to-end:
+>
+> 1. **Business decision sentence** — the one sentence the entire plan resolves to. ~2 min.
+> 2. **Success criteria** — three to five binary pass/fail items. ~5 min, one criterion at a time.
+> 3. **Scope, stakeholders, environment, timeline** — the four fields that make the plan operational. ~5 min, one question each.
+> 4. **Detector check + planning-meeting agenda** — pressure-test the draft, attach the meeting structure. ~2 min.
+>
+> Each beat asks you a quick question before I draft. Your job: confirm or correct, and stop me if anything goes off track. If you can't answer a field yet — sponsor hasn't said, AE is checking — say so and I'll mark it `[NEEDS: ...]` so the gap is visible in the final plan, not buried.
+>
+> Ready when you are.
+
+Once the SE acknowledges, proceed through the six beats. Each beat applies the structure below.
+
+#### 2.1 Business decision
+
+**Preamble.** The business decision is the spine of the plan — one sentence the entire eval resolves to. Step 1 gave us the decision-maker, the deal outcome, and the anchor date. What's missing is the IF clause: the observable state at wrap-up that resolves true (or false). Don't draft the sentence yet — get the IF clause from the SE first.
+
+**Ask.** Read §2.1 of `references/per-field-questions.md` for the question text, header chip, and 4 illustrative option labels + descriptions. Make a single AskUserQuestion call with `multiSelect: false`. The automatic "Other" free-text field is where the real answer often lands — do not add it manually.
+
+**Draft.** Once the SE has answered, draft the business-decision sentence using the template: `If [IF clause from SE's answer] is true at wrap-up, [decision-maker from Step 1] will [deal outcome from Step 1] by [anchor date from Step 1].` If the SE picked an Option without specifying the concrete behavior, threshold, or scenario, ask one brief prose follow-up to nail it down ("Got the shape. What's the specific behavior?") before drafting. If the answer is itself fuzzy — any synonym of "demonstrate value," "validate the approach," "prove the technology," or "build the case" — treat as the Unaimed Evaluation trigger arriving inside Step 2; surface the deal-outcome targeted halt from Step 1 and offer to mark the field `[NEEDS: <gap>]`.
+
+**Confirm.** Surface the drafted sentence and ask in prose: *"Does this read as the sentence the deal will resolve to? Anything you'd tighten before we move to success criteria?"* If the SE confirms, lock the field and proceed to 2.2. If they want a tightening, do one iteration of edits and re-confirm. After two non-converging iterations, halt and surface the gap — the field has more upstream work than Step 2 can resolve in this session. The confirm beat is not skippable; do not proceed to 2.2 without an explicit confirmation or an acknowledged NEEDS mark.
+
+#### 2.2 Binary success criteria
+
+**Preamble.** Three to five binary pass/fail items. Each names a specific behavior under named conditions, runs against the customer's own data and environment, and resolves to true or false without interpretation. *"Improves auth speed"* is not a criterion. *"Completes the auth flow against the customer's top-five enterprise apps in their staging tenant with sub-second p95 latency"* is. Don't draft criteria yet — find out which scenario anchors this eval first.
+
+**Ask.** Read §2.2 of `references/per-field-questions.md`. Before the call, set expectation in one line of prose: *"We'll draft criteria one at a time after this — you can add adjacent scenarios as we go."* Then make the AskUserQuestion call with `multiSelect: false`. The SE's primary scenario anchors criterion 1; additional scenarios surface via prose follow-up in the draft step.
+
+**Draft.** Draft criterion 1 against the SE's primary scenario, then ask one prose follow-up per additional criterion ("What's the next scenario that needs to be a pass/fail item?") until 3-5 criteria are locked. After each criterion, name the specific behavior, the customer-environment conditions, and the measurable threshold. If the SE proposes more than five, name the Two-Week Flame trigger explicitly and ask which two should be moved to post-purchase rollout. If the SE proposes fewer than three after the prose follow-ups, mark `[NEEDS: criterion 2]` (or 3) rather than padding.
+
+**Confirm.** Surface the full list and ask in prose: *"Three to five binary items, each testable in the customer's environment. Does this set match what we need to prove? Add, cut, or tighten before we move to scope?"* Same two-iteration safety valve as 2.1. Lock the field and proceed to 2.3 on confirmation.
+
+#### 2.3 Scope guardrails
+
+**Preamble.** Items the customer asked about during discovery that aren't on the path to the business decision belong here, each paired with a one-line reason it's excluded and where it goes instead ("parked for post-purchase rollout," "covered in a separate workstream"). Walking in with this list pre-drafted is what makes scope creep harder in the planning meeting itself. Don't draft items yet — get the dominant out-of-scope category from the SE first.
+
+**Ask.** Read §2.3 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
+
+**Draft.** Draft the first scope-out item from the SE's answer with its one-line reason. Then ask one prose follow-up ("What else got asked about that shouldn't ride this eval?") to surface remaining items. If the SE can't enumerate out-of-scope items because the in-scope picture isn't pinned (e.g., *"sponsor hasn't said what's in, can't say what's out"*), the field carries `[NEEDS: scope boundaries from sponsor]` rather than an empty list — the gap is upstream, not in the SE's drafting. Empty out-of-scope lists where the SE chose not to park anything are a different state: a Two-Week Flame trigger — surface that warning before locking the field.
+
+**Confirm.** Surface the full out-of-scope list and ask in prose: *"Does this list cover the things the sponsor asked about that don't belong in this eval? Anything missing or mis-categorized?"* Two-iteration safety valve. Lock the field and proceed to 2.4.
+
+#### 2.4 Stakeholders
+
+**Preamble.** Every name on the stakeholder list has three attached items: role label (security, IT, identity, compliance, app owner, exec sponsor), stated interest (what they need the eval to show before they sign off), and the specific checkpoint or wrap-up they will be in the room for. `TBD` is not acceptable. The project sponsor stays on through wrap-up — confirmed verbally, not over email. The security or risk owner is named explicitly; their absence is the most common reason a technical win does not convert. Don't draft the stakeholder table yet — find out who's actually engaged so far.
+
+**Ask.** Read §2.4 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
+
+**Draft.** If the SE picked "Sponsor + technical" (Option 1) — Empty Chair is pre-triggering. Before drafting the stakeholder list, surface the Empty Chair warning from `references/anti-patterns.md` §2 *inside this beat*, and ask the prose follow-up: *"Before we draft this field, who on the security side needs to be in?"* If the SE can name a security/risk counterpart, add them to the draft list. If they can't, the stakeholder field carries `[NEEDS: security/risk audience]` and the Empty Chair warning rides with the plan into Step 3 (where the detector also fires structurally — defense in depth). For any other Option, draft the stakeholder table with role + stated interest + committed meeting per named contact.
+
+**Confirm.** Surface the full table and ask in prose: *"Each role has a named person, a stated interest, and a meeting they're committed to. Anyone missing or any `TBD` we need to close before kickoff?"* Two-iteration safety valve. Lock the field and proceed to 2.5.
+
+#### 2.5 Validation environment
+
+**Preamble.** The plan describes the test environment with enough detail to prove it's been thought through: integration surface (every named system the product will touch, by category and version), auth flow path (direction, credentials, boundaries crossed), test data set (real users, test users, anonymized production, synthetic — named), and sandbox-vs-production posture. *"Their stack"* is not a description. Production is the second event, after the sandbox tests pass. Don't draft the environment field yet — find out where the eval actually runs.
+
+**Ask.** Read §2.5 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
+
+**Draft.** If the SE picked "Production with controls" (Option 4) or any Other answer that names the customer's production as the primary test bed without a sandbox proof first — Sandboxed Proof is pre-triggering. Surface its warning from `references/anti-patterns.md` §3 *inside this beat* before drafting. Then draft the four sub-items (integration surface, auth flow path, test data, sandbox/prod posture) against the SE's answer, asking one prose follow-up per sub-item that the SE hasn't already specified ("Which identity provider? Which app set? Real users or synthetic?"). Any sub-item the SE can't name carries `[NEEDS: <specific piece>]`.
+
+**Confirm.** Surface the full environment description and ask in prose: *"Does this match the environment we'll actually be testing in? Anything in the integration surface or auth flow that's still loose?"* Two-iteration safety valve. Lock the field and proceed to 2.6.
+
+#### 2.6 Timeline and checkpoints
+
+**Preamble.** Kickoff lands within one week of the planning meeting; wrap-up sits two to three weeks after kickoff, never longer, with the decision-maker attending; checkpoints run every two to three days, not "as needed"; the same-day internal recap with the AE is non-negotiable. Don't draft the timeline yet — find out what shape the SE thinks this eval needs to fit.
+
+**Ask.** Read §2.6 of `references/per-field-questions.md`. AskUserQuestion call with `multiSelect: false`.
+
+**Draft.** If the SE picked "Four weeks" (Option 3) — Two-Week Flame is pre-triggering. Surface its warning and remediation from `references/anti-patterns.md` §4 *inside this beat* before drafting any dates; ask the SE which scope items can move to a post-purchase rollout list to cut the timeline. If the SE picked "Open-ended" (Option 4) — the Step 1 date-anchor halt re-surfaces here; Step 2 is not the place to drift past a Step 1 gap. For Options 1 or 2, draft the kickoff date, the checkpoint cadence, the wrap-up date with the decision-maker attending, and the same-day AE recap. If specific dates are still fuzzy beyond the Step 1 anchor (e.g., *"wrap-up date depends on procurement, no fixed date yet"*), draft the timeline with placeholder dates relative to the anchor and mark the unfilled specifics — for example, `[NEEDS: procurement-dependent wrap-up date]`.
+
+**Confirm.** Surface the full timeline and ask in prose: *"Kickoff date, checkpoint cadence, wrap-up date with decision-maker, AE recap same day. Anything stretching past three weeks, or any date that needs a calendar check before we run detectors?"* Two-iteration safety valve. Once locked, proceed to Step 3 — run the four detectors against the completed draft.
 
 ### 3. Run the four detectors
 
