@@ -89,9 +89,9 @@ The skill needs three answers locked in before drafting: (a) the specific deal o
 
 - *Deal outcome gap:* "The eval needs a specific deal outcome before kickoff. Without one, the eval produces results everyone agrees are interesting and no one acts on. The discovery question to bring back to the sponsor and AE: *'What changes for the business if this eval lands — sign what, fund what, replace what?'* Get the answer in their words, not paraphrased. Loop back when you have it."
 
-- *Decision-maker gap:* "The decision-maker isn't pinned. The eval can't safely begin without the named person who walks out of wrap-up with a signed action. The discovery question to bring to the AE: *'When the eval lands successfully, who specifically signs / funds / approves? Is that the sponsor, or does authority sit above them?'* Get them on the wrap-up calendar before kickoff. If authority kicks up, that's the upstream gap — surface it now, not later."
+- *Decision-maker gap:* "The decision-maker isn't pinned. The eval can't safely begin without the named person who walks out of wrap-up with a signed action. The discovery question to bring to the AE: *'If the eval succeeds, who has to be the one to sign — you, or someone above?'* Get them on the wrap-up calendar before kickoff. If authority kicks up, that's the upstream gap — surface it now, not later."
 
-- *Date / business-event gap:* "The eval has no date anchor. Open-ended evals lose momentum, miss the window, and end without deciding anything. The discovery question to bring back to the sponsor: *'What business event is this decision feeding into — a board review, a renewal, a budget cycle, a compliance deadline? Is there a date for that event?'* If the answer is 'nothing specific,' the deal isn't being prioritized internally — that itself is the finding, and the AE should know."
+- *Date / business-event gap:* "The eval has no date anchor. Open-ended evals lose momentum, miss the window, and end without deciding anything. The discovery question to bring back to the sponsor: *'What business event forces this decision? A board review, a renewal, a budget cycle?'* If the answer is 'nothing specific,' the deal isn't being prioritized internally — that itself is the finding, and the AE should know."
 
 **Partial-plan fallback.** After surfacing the targeted halt(s), the SE may want a working draft to iterate on while they close the gap offline. Honor that — but surface the gap first; never offer the partial as a way to skip the halt. The partial plan carries the gapped field(s) marked `[NEEDS: <gap statement>]` (the same convention used in Step 2). State at the top of the output that the plan is partial and not ready to walk into the planning meeting with. The Quality Checklist will flag the unfilled field on the way out — that flag is the point.
 
@@ -110,37 +110,34 @@ Both answers come from the SE in plain prose — no AskUserQuestion needed. Once
 
 ### 2. Draft the six fields, one consultative beat at a time
 
-Step 2 runs as six consultative beats — one per field. Each beat self-assesses which mode to run in: **propose-and-iterate** (skill drafts directly from accumulated context, SE iterates) or **ask-then-draft** (skill asks via AskUserQuestion first, then drafts from the answer). The structured option sets for ask-then-draft beats live in `references/per-field-questions.md`.
+Step 2 runs as six consultative beats — one per field. Each beat self-assesses which of three modes to run in: **propose-and-iterate**, **ask-then-draft**, or **hybrid**. The structured option sets for the beats that call AskUserQuestion live in `references/per-field-questions.md`.
 
-**Self-assessment per beat.** Before each per-field beat, Claude assesses whether accumulated context (upstream answers + thread-specifics + the SE's trigger phrasing + deal shape from their first message) provides enough signal to propose a strong first draft directly.
+**Self-assessment per beat.** Before each per-field beat, Claude assesses how much accumulated context (upstream answers + thread-specifics + the SE's trigger phrasing + deal shape from their first message + prior beat results) it has for this field. Three modes:
 
-Routes to **propose-and-iterate** when:
-- The deal shape (industry vertical, eval type, customer-side capabilities) makes the field's content largely inferable.
-- Upstream answers already supply most of what the field needs.
-- The field's content is highly stereotyped for this kind of eval.
+**Propose-and-iterate** — accumulated context gives enough signal to draft the field directly. Skill drafts, SE iterates via confirm. No AskUserQuestion call. Beat structure: field intro (which carries the explanation bridge naming context-derived defaults) → draft → confirm.
 
-Routes to **ask-then-draft** when:
-- Field content depends on org-specific knowledge Claude doesn't have (which stakeholders are engaged, customer's environment posture).
-- The SE has a small set of orthogonal choices to make (sandbox vs. production, three vs. four weeks).
-- Failure mode of guessing wrong is high (e.g., inventing a stakeholder name).
+**Ask-then-draft** — field content depends on org-specific knowledge Claude doesn't have. Skill asks via AskUserQuestion before drafting anything. Beat structure: field intro → AskUserQuestion preamble (≤2 sentences immediately before the tool call — TUI clip constraint, see Step 1) → AskUserQuestion call → detector pre-fire (if triggered) → explanation bridge → draft → confirm.
 
-The mode mapping below is the lock for the eval-planning skill. Future skills with additional beats apply the same self-assessment logic:
+**Hybrid (propose-default + conditional-ask)** — partial context. Universal defaults are inferable from deal shape or the source's discipline; scenario-specific specifics need SE input. Skill proposes the universal defaults inline AND asks for the scenario-specific gap. Hybrid varies by beat in how the propose-vs-ask split lands. Three sub-shapes:
+
+- **Additive** — propose a universal list inline; ask in prose for additions, removals, or in-scope exceptions. (Beat 2.3.) Fallback to ask-then-draft via `references/per-field-questions.md` §2.3 only when deal shape doesn't suggest universal defaults at all.
+- **Posture-vs-details** — propose the discipline-aligned posture inline; ask in prose for sub-item specifics. (Beat 2.5.) No AskUserQuestion call; the propose path is the discipline-aligned default backstopped by the relevant detector pre-fire.
+- **Default-vs-override** — propose a discipline-aligned default inline; ask via AskUserQuestion only when override pressure is detected in accumulated context. (Beat 2.6.) Override-pressure signals: AE-driven short kickoff window, anchor date < 4 weeks out, SE-mentioned urgency, any sub-three-week constraint surfaced in trigger or upstream answers.
+
+The three hybrid sub-shapes share the propose-inline + ask-for-gap structure but differ in *what* gets asked and *how*. The propose path doesn't soften the gate — when an SE explicitly overrides a discipline-aligned default, the relevant detector pre-fire (Sandboxed Proof, Two-Week Flame, Empty Chair) backstops at the next step. The discipline runs at two layers: mode propose AND detector pre-fire.
+
+The mode mapping below is the lock for the eval-planning skill. Future skills with additional beats apply the same self-assessment logic.
 
 | Beat | Mode | Routing rationale |
 |---|---|---|
 | 2.1 Business decision | Propose-and-iterate | Upstream + thread-specifics give 3 of 4 if-then parts; deal shape gives the IF clause. |
 | 2.2 Binary success criteria | Propose-and-iterate | Deal shape narrows the criteria space to 2–3 stereotyped picks for this eval type. |
-| 2.3 Scope guardrails | Ask-then-draft | Common discovery items vary by industry vertical and eval type; SE picks from candidates. |
+| 2.3 Scope guardrails | Hybrid (additive) | Universal out-of-scope items inferable from vertical and eval type; scenario-specific items need SE input. |
 | 2.4 Stakeholders | Ask-then-draft | Customer's org chart is opaque to skill. |
-| 2.5 Validation environment | Ask-then-draft | Sandbox vs. production posture is an SE+customer joint decision. |
-| 2.6 Timeline and checkpoints | Ask-then-draft | Four timeline shapes; SE picks which fits the eval. |
+| 2.5 Validation environment | Hybrid (posture-vs-details) | Sandbox-first posture is the discipline-aligned default; sub-item specifics (IdP, apps, test data) need SE input. |
+| 2.6 Timeline and checkpoints | Hybrid (default-vs-override) | Three-week default is discipline-aligned (Two-Week Flame backstop); ask only when override pressure exists. |
 
-Across Step 2: four AskUserQuestion calls total (beats 2.3–2.6), plus the upstream intake from Step 1 = five AskUserQuestion calls across the whole skill.
-
-**Beat structure varies by mode:**
-
-- **Propose-and-iterate**: field intro (which incorporates the explanation bridge naming context-derived defaults) → draft → confirm.
-- **Ask-then-draft**: field intro → AskUserQuestion preamble (≤2 sentences immediately before the tool call — TUI clip constraint, see Step 1) → AskUserQuestion call → detector pre-fire (if triggered) → explanation bridge → draft → confirm.
+Across Step 2: one unconditional AskUserQuestion call (Beat 2.4) plus one conditional (Beat 2.6 on override-pressure detection), plus rare fallbacks (Beat 2.3 when deal shape gives no defaults). With the upstream intake from Step 1, the skill makes 2–3 AskUserQuestion calls in a typical session.
 
 **Full re-emit on iteration.** When the SE asks to change part of a drafted multi-element field (criteria, scope items, stakeholders, validation environment sub-items, timeline elements), the skill re-emits the full updated state of that field as a block-quote — not just the changed item. Diff-only emit treats the skill as a patcher; full re-emit treats it as a co-drafter and lets the SE check the items still hang together as a group. Single-sentence fields (business decision) trivially satisfy this since the iteration is the full re-emit.
 
@@ -181,27 +178,40 @@ Each beat applies its mode's structure below.
 
 #### 2.3 Scope guardrails
 
-**Mode.** Ask-then-draft. Common discovery items vary by industry vertical and eval type; skill offers candidates, SE picks which ones go on the out-of-scope list.
+**Mode.** Hybrid (additive). Universal out-of-scope items for the vertical-and-eval-type are inferable from deal shape; scenario-specific items the customer surfaced in discovery need SE input. Propose the universal list inline; ask in prose for additions, removals, or in-scope-by-exception markers.
 
 **Field intro (user-facing, 3–4 sentences).** Emit at the start of the beat, after 2.2's confirm clears:
 
 > *Scope guardrails next. The out-of-scope list — items the customer asked about during discovery that aren't on the path to the deal outcome, each paired with a one-line reason and where it goes instead (post-purchase rollout, separate workstream). The list does most of its work in the planning meeting: when the sponsor pushes for new scope mid-meeting, the reason is what holds the line. Walking in with this drafted gives you a strong point of view that's hard to dictate against.*
 
-**AskUserQuestion preamble (≤2 sentences immediately before the call).** Emit:
+**Explanation bridge (1 sentence).** Emit, naming the count and the deal-shape inference:
 
-> *Common candidates for [deal-shape-matched] POCs:*
+> *From the deal shape — [eval type + industry vertical, e.g., "workforce-identity POC in financial services"] — [N] out-of-scope items earn their place by default:*
 
-**Ask.** Read §2.3 of `references/per-field-questions.md`. Make the AskUserQuestion call with `multiSelect: false`. Note: the SE may also free-text additional out-of-scope items via the automatic "Other" field, or flag one item as in-scope-by-exception.
+**Propose-inline (universal defaults from deal shape).** Draft 4–5 universal out-of-scope items as the starting list. For workforce-identity POCs the defaults are: B2B partner authentication, mobile/BYOD endpoints, identity governance/lifecycle automation, custom branding/theming, legacy app migration. For other deal shapes (CIAM, SIEM, EDR, MDM, etc.), adapt the universal defaults to the eval type — Claude infers the 4–5 items most commonly out-of-scope for this kind of eval and emits them with one-line reasons. Emit as a block-quoted bullet list:
 
-**Explanation bridge after SE answers (1–2 sentences).** Emit:
+> – B2B partner authentication (federated identity) — post-purchase rollout workstream; outside the IT-pain-reduction storyline driving this eval.
+> – Mobile / BYOD endpoints — corp-managed devices only for v1; mobile is Phase 2.
+> – Identity governance / lifecycle automation — separate product line, separate eval cycle.
+> – Custom branding / theming — post-purchase polish workstream.
+> – Legacy app migration (apps that need rebuilding) — Phase 2 integration scope.
 
-> *Got it. I'll draft these as the out-of-scope list, each with a one-line reason and where it goes instead. The reasons matter: at the planning meeting, when the sponsor pushes a new request, the reason is what holds the line.*
+**Fallback to ask-then-draft.** If deal shape doesn't suggest universal defaults — rare; the SE may have triggered with too little context to infer the vertical and eval type — fall back to ask-then-draft using §2.3 of `references/per-field-questions.md`. The fallback preserves the field's structural shape without runtime improvisation on the option set.
 
-**Draft.** Emit the SE's picks as a block-quoted bullet list. Each bullet has: item — one-line reason — where it goes instead ("post-purchase rollout workstream," "separate eval cycle," "Phase 2"). If the SE flagged any item as in-scope-by-exception, add it at the bottom as `[In-scope by exception]` with the sponsor's discovery rationale.
+**Ask-for-scenario-specific (prose, NOT AskUserQuestion).** After the inline defaults emit, ask:
 
-**NEEDS path.** If the SE can't enumerate out-of-scope items because the in-scope picture isn't pinned (e.g., *"sponsor hasn't said what's in, can't say what's out"*), the field carries `[NEEDS: scope boundaries from sponsor]` rather than an empty list — the gap is upstream, not in the SE's drafting. Empty out-of-scope lists where the SE chose not to park anything are a different state: a Two-Week Flame trigger — surface that warning before locking the field.
+> *Anything from your discovery that needs to go on this list — or come off it? Sponsor flagged a legacy app or B2B integration as in-scope-by-exception?*
 
-**Confirm.** Ask in prose: *"Does this cover what the sponsor asked about that doesn't belong in this eval? Anything missing or mis-categorized?"* If the SE wants a change, emit the full updated list as a block-quote (full re-emit), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.4 on confirmation.
+The SE responds with additions, removals, or in-scope-by-exception markers.
+
+**Draft.** Update the list based on the SE's response:
+- Add scenario-specific items as new bullets with one-line reasons.
+- Move in-scope-by-exception items to the bottom of the list with `[In-scope by exception]` and the sponsor's discovery rationale.
+- Remove any universal defaults the SE explicitly rejected (e.g., if the deal does cover mobile, drop mobile/BYOD).
+
+**NEEDS path.** If the SE can't enumerate scenario-specific items because the in-scope picture isn't pinned (e.g., *"sponsor hasn't said what's in, can't say what's out"*), the field carries `[NEEDS: scope boundaries from sponsor]` — the gap is upstream. The universal defaults still ride into the plan; the NEEDS marker says "this list is partial." Empty out-of-scope lists where the SE explicitly removed every universal default without adding anything are a different state: a Two-Week Flame trigger — surface that warning before locking the field.
+
+**Confirm.** Ask in prose: *"Does this cover what the sponsor asked about that doesn't belong in this eval? Anything missing or mis-categorized?"* If the SE wants a change, emit the full updated list as a block-quote (full re-emit, including universal defaults plus SE additions), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.4 on confirmation.
 
 #### 2.4 Stakeholders
 
@@ -243,25 +253,26 @@ If Empty Chair did not pre-fire (security/risk was picked or the engagement span
 
 #### 2.5 Validation environment
 
-**Mode.** Ask-then-draft. Sandbox vs. production posture is an SE+customer joint decision.
+**Mode.** Hybrid (posture-vs-details). Sandbox-first posture is the discipline-aligned default (curated source §3.3, Sandboxed Proof koan); sub-item specifics (integration surface, auth flow path, test data) need SE input. Propose the posture inline; ask in prose for sub-item details. No AskUserQuestion call.
 
 **Field intro (user-facing, 2–3 sentences).** Emit at the start of the beat, after 2.4's confirm clears:
 
 > *Validation environment next. The technical description of the test bed — integration surface (named systems and versions), auth flow path (direction and boundaries), test data (real / test / anonymized / synthetic), and sandbox-vs-production posture. The discipline here: "their stack" is not a description, and a kickoff that hand-waves the environment produces "it works in our lab" meeting "in ours, it does not."*
 
-**AskUserQuestion preamble (≤2 sentences immediately before the call).** Emit:
-
-> *Which approach are we taking?*
-
-**Ask.** Read §2.5 of `references/per-field-questions.md`. Make the AskUserQuestion call with `multiSelect: false`.
-
-**Detector pre-fire (Sandboxed Proof).** If the SE picked the production-first option or any Other answer that names the customer's production as the primary test bed without a sandbox proof first, Sandboxed Proof is pre-triggering. Surface its warning from `references/anti-patterns.md` §3 in-beat before drafting; note the warning rides into the field itself.
-
-**Explanation bridge.** Emit (adapt to the picked option — example for sandbox-first):
+**Propose-inline POSTURE (sandbox-first as discipline-aligned default).** Emit the explanation bridge naming the posture:
 
 > *Sandbox-first locks in — that's the Sandboxed Proof discipline; the eval runs in your mirror of [customer]'s stack before anything touches their production. I'll draft the four sub-items now, marking any specifics you don't have yet as NEEDS:*
 
-**Draft.** Emit the four sub-items (integration surface, auth flow path, test data, sandbox/prod posture) as a block-quoted bullet list. For each sub-item the SE hasn't specified, ask one prose follow-up ("Which identity provider? Which app set? Real users or synthetic?") and incorporate the answer. Any specifics still unanswered carry `[NEEDS: <specific piece>]`.
+**Detector pre-fire branch (Sandboxed Proof).** Sandbox-first is the proposed default. If the SE explicitly overrides the posture in prose (e.g., *"we don't have time for a sandbox, going straight to production"* or *"customer wants this in their prod tenant"*) — Sandboxed Proof is pre-triggering. Surface its warning from `references/anti-patterns.md` §3 in-beat before drafting; the warning rides into the field itself. Do not soften the warning even if the SE asserts production-first; that resistance is exactly what the detector is meant to surface.
+
+**Ask-for-sub-item-specifics (prose, NOT AskUserQuestion).** After the posture lands, draft the four sub-items as a block-quoted bullet list. For each sub-item the SE hasn't specified in accumulated context, ask one prose follow-up incorporated inline — typical asks: *"Which identity provider?"*, *"Which app set?"*, *"Real users or synthetic test accounts?"*. Substitute the SE's answers into the bullet list as they arrive. Any sub-item the SE can't name carries `[NEEDS: <specific piece>]` in the bullet.
+
+**Draft.** Emit the four sub-items as one block-quoted bullet list:
+
+> – **Integration surface:** [customer]'s identity provider [NEEDS or named], top-five enterprise apps via SAML/OIDC [NEEDS or named app list], corp-managed endpoints, their SIEM connector [NEEDS or named].
+> – **Auth flow path:** end-user → device passkey → identity provider → app via SAML/OIDC. Boundary crossings: device-to-IdP (cloud), IdP-to-app (cloud).
+> – **Test data:** [pilot cohort details — count + business unit, or NEEDS]; no production user data; phishing simulation runs against test accounts only.
+> – **Sandbox vs. production:** SE-prepared sandbox mirroring [customer]'s IdP and the top-five apps in their staging tenant. Production only after sandbox passes; staged rollout, never broader during the eval.
 
 **Operational test (post-draft, before confirm).** Surface one line: *"One operational test before the planning meeting — if you can't draw [customer]'s auth flow on a whiteboard from memory, technical discovery isn't finished. Finish it before walking in with this section."*
 
@@ -269,7 +280,7 @@ If Empty Chair did not pre-fire (security/risk was picked or the engagement span
 
 #### 2.6 Timeline and checkpoints
 
-**Mode.** Ask-then-draft. Four timeline shapes; SE picks which fits the eval.
+**Mode.** Hybrid (default-vs-override). Three-week default is the discipline-aligned timeline (curated source §3.4, Two-Week Flame koan: "two weeks if possible, three at the outside"). Propose the default inline; ask via AskUserQuestion only when override pressure is detected.
 
 **Field intro (user-facing, 3–4 sentences).** Emit at the start of the beat, after 2.5's confirm clears:
 
@@ -277,17 +288,32 @@ If Empty Chair did not pre-fire (security/risk was picked or the engagement span
 >
 > *Kickoff, checkpoints, wrap-up — each pinned in a real calendar invite before the planning meeting ends, not "scheduled later." The constraints: kickoff within a week of planning, wrap-up at most three weeks after, checkpoints every two-to-three days, decision-maker on the wrap-up invite. An intense eval forces priority and ends in a decision; a slow one breeds amnesia and leaves the sponsor chasing ghosts.*
 
-**AskUserQuestion preamble (≤2 sentences immediately before the call).** Emit:
+**Override-pressure detection.** Before deciding propose-default or ask-on-override, check accumulated context for any of these signals:
+
+- AE-driven short kickoff window mentioned in trigger or thread-specifics (e.g., *"AE wants kickoff next Friday"*).
+- Anchor date < 4 weeks out from today, leaving little margin for a standard three-week eval.
+- SE-mentioned urgency in trigger phrasing or upstream answers (e.g., *"board review in 10 weeks"* alongside *"kickoff next Friday"*).
+- Sub-three-week constraint surfaced anywhere in accumulated context.
+
+If any signal present → **ask-on-override branch.** Otherwise → **propose-default branch.**
+
+**Propose-default branch (no override pressure detected).** Emit the explanation bridge naming the three-week default:
+
+> *Three weeks — within the safe range. I'll pin kickoff [date, within one week of planning meeting], wrap-up three weeks later with [decision-maker] on the invite, checkpoints every two-to-three days, and the same-day AE recap. Then surface two phrases you'll need to bring into the planning meeting verbatim.*
+
+Skip to the Draft block below. No AskUserQuestion call.
+
+**Ask-on-override branch (override pressure detected).** Emit the AskUserQuestion preamble (≤2 sentences):
 
 > *AE pressure on this one is real. What shape do you want to plan for?*
 
-**Ask.** Read §2.6 of `references/per-field-questions.md`. Make the AskUserQuestion call with `multiSelect: false`.
+Then make the AskUserQuestion call: read §2.6 of `references/per-field-questions.md`, fire with `multiSelect: false`.
 
-**Detector pre-fire (Two-Week Flame).** If the SE picked the four-weeks option or longer, Two-Week Flame is pre-triggering. Surface its warning and remediation from `references/anti-patterns.md` §4 in-beat before drafting any dates; ask which scope items can move to a post-purchase rollout list to cut the timeline. If the SE picked open-ended, the Step 1 date-anchor halt re-surfaces here — Step 2 is not the place to drift past a Step 1 gap.
+**Detector pre-fire (Two-Week Flame).** If the SE picked the four-weeks option or longer (or, in the propose-default branch, the SE explicitly pushes back to a longer timeline), Two-Week Flame is pre-triggering. Surface its warning and remediation from `references/anti-patterns.md` §4 in-beat before drafting any dates; ask which scope items can move to a post-purchase rollout list to cut the timeline. If the SE picked open-ended, the Step 1 date-anchor halt re-surfaces here — Step 2 is not the place to drift past a Step 1 gap.
 
-**Explanation bridge.** Emit (adapt to picked option — example for three-weeks):
+**Explanation bridge (ask-on-override branch only).** After SE picks a timeline shape, emit (adapt to picked option — example for three-weeks):
 
-> *[Picked timeline shape, e.g., "Three weeks"] — within the safe range. I'll pin kickoff, the checkpoint cadence, the wrap-up with the exec sponsor on the invite, and the same-day AE recap. Then surface two phrases you'll need to bring into the planning meeting verbatim.*
+> *Three weeks — within the safe range. I'll pin kickoff, the checkpoint cadence, the wrap-up with the exec sponsor on the invite, and the same-day AE recap. Then surface two phrases you'll need to bring into the planning meeting verbatim.*
 
 **Draft.** Emit the timeline as a block-quoted bullet list (kickoff date, checkpoint cadence with named days where possible, wrap-up date with decision-maker attending, same-day AE recap). If specific dates are still fuzzy beyond the Step 1 anchor (e.g., *"wrap-up date depends on procurement, no fixed date yet"*), draft with placeholder dates relative to the anchor and mark the unfilled specifics — for example, `[NEEDS: procurement-dependent wrap-up date]`.
 
@@ -306,6 +332,15 @@ Walk the draft against each detector in `references/anti-patterns.md` and surfac
 - Empty Chair — the stakeholder list shows only one organizational function.
 - Sandboxed Proof — non-trivial deployment goes straight to customer production.
 - Two-Week Flame — timeline exceeds three weeks, or criteria exceed five.
+
+**Detector status values.** Each detector resolves to one of four statuses, recorded in the plan's Detector check section:
+
+- **PASS** — no trigger condition met; the discipline this detector enforces is intact in the draft.
+- **FAIL** — trigger condition met; emit the warning + remediation. The plan ships with this finding visible.
+- **PASS (qualified)** — discipline-aligned posture present, but contingent on sub-item specifics still loose (e.g., sandbox-first stated but IdP/app list/test data still NEEDS). The qualifier names what makes the pass contingent.
+- **PASS (watch)** — currently passing but a live risk could flip it during execution (e.g., timeline within three weeks but AE pressure plus a near-term board window could push it past). The watch note names the live risk.
+
+Use the qualified/watch statuses when honest assessment requires nuance beyond pure pass/fail.
 
 ### 4. Attach the planning-meeting agenda
 
@@ -343,6 +378,31 @@ After the markdown plan emits and the SE has confirmed, the skill offers a polis
 6. Run `typst compile eval-plan-<customer-slug>.typ eval-plan-<customer-slug>.pdf` via Bash.
 7. **On success,** confirm: *"Done. `eval-plan-<customer-slug>.pdf` is saved alongside this conversation. The markdown above is still paste-ready for the eval-management tool; the PDF is for anywhere else you need to share it."*
 8. **On `typst compile` failure** (template syntax error, missing fonts, etc.), surface the stderr and offer to share the `.typ` source so the SE can compile elsewhere: *"typst compile failed: [error]. The `.typ` source is saved if you'd like to compile it elsewhere, or share me the error and I can adjust."*
+
+### 7. Close with specific next moves and the landing signal
+
+After the markdown plan emits (Step 5) and the PDF render either completes, is declined, or is skipped because typst is absent (Step 6), emit two short paragraphs to close the session. This closing is unconditional — it runs whether or not the PDF render fired.
+
+**Paragraph 1 — Specific next moves.** Pull from:
+
+- Any `[NEEDS: ...]` markers in the plan (each becomes a "close before kickoff" action item).
+- Any detector findings with status FAIL or PASS (qualified) — the remediation is the action item.
+- Any sub-item specifics still loose (validation environment NEEDS, decision-maker name TBD, etc.).
+
+Emit as an ordered list under a heading naming the count: "Two things to close before the planning meeting:", "Three things to close...", etc. Each item is one line stating the specific action + (where relevant) where the discovery question for it lives in the plan ("The discovery question is above"). Items that pull from FAILed detectors reference the warning + remediation from `references/anti-patterns.md` indirectly via the action language, not by detector name.
+
+**Paragraph 2 — Landing signal.** One sentence naming the live signal the SE should watch for in the planning meeting itself. Pick from `references/planning-meeting.md` the "landing" signal most relevant to this specific plan's NEEDS markers and detector findings — typically the marker that would close the biggest open gap.
+
+Example (for a plan with an Empty Chair gap + validation NEEDS markers):
+
+> *Two things to close before the planning meeting:*
+>
+> *1. Bring back the sponsor's named security counterpart. The discovery question is above.*
+> *2. Confirm [customer]'s IdP version and the top-five app names in the validation environment section.*
+>
+> *You'll know the planning meeting is landing when the sponsor names that security counterpart unprompted and edits the plan live in the eval-management tool, rather than asking for time to review. Good luck.*
+
+The closing prose is not an AskUserQuestion or confirm beat — it's a session-end emission. No iteration, no two-iteration safety valve. The skill ends here.
 
 ## Output Format
 
@@ -385,10 +445,10 @@ If [observable outcome] is true at wrap-up, [named decision-maker] will [specifi
 - Internal AE recap: same day as planning meeting.
 
 ## Detector check
-- Unaimed Evaluation: [PASS / FAIL — note].
-- Empty Chair: [PASS / FAIL — note].
-- Sandboxed Proof: [PASS / FAIL — note].
-- Two-Week Flame: [PASS / FAIL — note].
+- Unaimed Evaluation: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
+- Empty Chair: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
+- Sandboxed Proof: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
+- Two-Week Flame: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
 ```
 
 Then append:
