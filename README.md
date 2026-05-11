@@ -17,12 +17,6 @@ This is the v0.1 surface. Roadmap covers demo, evaluation, proposal, call review
 
 ## Getting Started
 
-### Cowork
-
-Install from [claude.com/plugins](https://claude.com/plugins/).
-
-### Claude Code
-
 ```bash
 claude plugin marketplace add nmelo/solutions-engineering-plugins
 claude plugin install solutions-engineering@solutions-engineering-plugins
