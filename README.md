@@ -42,11 +42,11 @@ Everything is file-based — markdown and JSON, no build step.
 
 ## Making it yours
 
-These are generic starting points. They get useful when you tune them to how your team actually works:
+The plugin ships tool-agnostic. Three places to customize:
 
-- **Swap connectors** — edit `.mcp.json` to point at your stack.
-- **Add company context** — drop your product narrative, competitor list, and process specifics into skill `references/`.
-- **Adjust workflows** — modify skill instructions to match how your team runs discovery, demo, POV, and proposal cycles.
+- **Connectors** — edit `.mcp.json` to point at your CRM, email, chat, and notes tools.
+- **Company context** — drop your product narrative, competitor list, and process specifics into each skill's `references/`.
+- **Workflows** — modify skill instructions to match how your team runs discovery, demo, POV, and proposal cycles.
 
 ## Contributing
 
