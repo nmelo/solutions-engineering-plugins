@@ -1,7 +1,7 @@
 {
   "name": "solutions-engineering",
   "version": "0.1.0",
-  "description": "Field tooling for solutions engineers — discovery, evaluation planning, demo design, POC scoping, objection handling, and proposal workflows.",
+  "description": "Drafts evaluation plans for solutions engineers — business decision, binary success criteria, scope guardrails, stakeholders, validation environment, timeline.",
   "author": {
     "name": "nmelo"
   }
