@@ -29,17 +29,35 @@ Do not fire for post-eval recaps, demo planning, or first-call discovery prep. T
 
 Run these steps in order. Each can halt and ask the user a question; halting is the correct behavior when the upstream material isn't there.
 
-### 1. Questionnaire — confirm we're aimed before drafting
+### 1. Open the session, then run the upstream questionnaire
 
-Emit the outcome-first preamble below verbatim. Wait for the SE's acknowledgment before proceeding.
+Open with a holistic 4-beat paragraph — the SE walking in deserves a teammate's acknowledgment before any structured tool fires. Then run the upstream questionnaire as described below.
 
-**Preamble.**
+**The 4-beat opening.** The four beats are scaffolding for *how to think about* the opener; the SE sees one short paragraph (4–5 sentences, no labels, no numbers, no line breaks between beats). The four beats are:
 
-> What you walk away with: a written eval plan — six fields plus a planning-meeting agenda — paste-ready for the eval-management tool. I'll need short answers from you as we go; about 10–15 minutes.
->
-> Ready when you are.
+1. **Situation acknowledgment.** Name what the SE is doing right now, in their voice. Adapts to context.
+2. **Brief outcome.** One sentence — what the SE walks away with.
+3. **The contract.** One sentence — what the SE contributes + time estimate.
+4. **Ready check with transition.** Yes/no consent moment connected to the first concrete move.
 
-Once the SE acknowledges, emit one line of prose to bridge into the questionnaire — *"OK. Quick three-question intake to make sure we're aimed right before drafting."* — then run the AskUserQuestion as described below.
+**Two contexts for Beat 1 (and Beat 4's transition).** Read the trigger phrasing and the SE's first message together; pick the variant that fits.
+
+- **Planning-meeting prep** — the SE is drafting a plan before the planning meeting with a sponsor. Triggers: *"draft an eval plan," "POV plan," "eval kickoff," "POC scope," "how should I scope this POC," "success criteria for this eval."*
+- **Sanity-check on a sponsor draft** — the SE has a draft and wants it pressure-tested. Triggers: *"sanity-check this plan,"* *"evaluation brief"* phrased as a review request, or any phrasing that mentions an existing draft.
+
+If context is ambiguous, lean toward planning-meeting prep — it's the more common case.
+
+**Illustrative full paragraphs.** Adapt language to the SE's actual phrasing but match the shape and register. Emit as one paragraph; do not label the beats in the output.
+
+*For planning-meeting prep:*
+
+> OK, eval planning — you're prepping for the meeting where you and the sponsor co-create the plan live. Let me help you walk in with a strong starting position. By the end you'll have a six-field eval plan plus a planning-meeting agenda — both paste-ready for your eval-management tool. I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start with where you are with the sponsor.
+
+*For sanity-check on a sponsor draft:*
+
+> Got it, sanity-check pass on a draft your sponsor sent over. Let me work through it with you against where evals quietly go off the rails. By the end you'll have a six-field eval plan plus a planning-meeting agenda — both paste-ready for your eval-management tool. I'll ask short questions as we go; runs about 10–15 minutes. Sound good? Let's start by checking what the draft says on the three things every eval has to answer.
+
+Wait for the SE's acknowledgment of the ready check before running the AskUserQuestion below.
 
 The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decision-maker who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
 
