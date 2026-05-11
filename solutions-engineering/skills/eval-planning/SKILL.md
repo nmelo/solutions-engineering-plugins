@@ -29,7 +29,17 @@ Do not fire for post-eval recaps, demo planning, or first-call discovery prep. T
 
 Run these steps in order. Each can halt and ask the user a question; halting is the correct behavior when the upstream material isn't there.
 
-### 1. Elicit the upstream conditions, then halt on gaps
+### 1. Questionnaire — confirm we're aimed before drafting
+
+Emit the outcome-first preamble below verbatim. Wait for the SE's acknowledgment before proceeding.
+
+**Preamble.**
+
+> What you walk away with: a written eval plan — six fields plus a planning-meeting agenda — paste-ready for the eval-management tool. I'll need short answers from you as we go; about 10–15 minutes.
+>
+> Ready when you are.
+
+Once the SE acknowledges, emit one line of prose to bridge into the questionnaire — *"OK. Quick three-question intake to make sure we're aimed right before drafting."* — then run the AskUserQuestion as described below.
 
 The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decision-maker who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
 
@@ -61,22 +71,7 @@ Only proceed to Step 2 when all three items are answered concretely, or when the
 
 Step 2 runs as six consultative beats — one per field. Each beat is: preamble → AskUserQuestion → draft → confirm. **Pure ask-first: do not draft any field's content before that field's AskUserQuestion answer is in hand.** No strawman-and-edit. No hybrid. The structured option sets for each beat live in `references/per-field-questions.md`; Claude reads the corresponding block before each AskUserQuestion call.
 
-Before any field drafting begins, emit the orientation preamble below verbatim, then wait for the SE's acknowledgment.
-
-**Orientation preamble.**
-
-> Here's how we'll build this together. Four phases, roughly 10–15 minutes end-to-end:
->
-> 1. **Business decision sentence** — the one sentence the entire plan resolves to. ~2 min.
-> 2. **Success criteria** — three to five binary pass/fail items. ~5 min, one criterion at a time.
-> 3. **Scope, stakeholders, environment, timeline** — the four fields that make the plan operational. ~5 min, one question each.
-> 4. **Detector check + planning-meeting agenda** — pressure-test the draft, attach the meeting structure. ~2 min.
->
-> Each beat asks you a quick question before I draft. Your job: confirm or correct, and stop me if anything goes off track. If you can't answer a field yet — sponsor hasn't said, AE is checking — say so and I'll mark it `[NEEDS: ...]` so the gap is visible in the final plan, not buried.
->
-> Ready when you are.
-
-Once the SE acknowledges, proceed through the six beats. Each beat applies the structure below.
+Each beat applies the structure below.
 
 #### 2.1 Business decision
 
