@@ -29,15 +29,33 @@ Do not fire for post-eval recaps, demo planning, or first-call discovery prep. T
 
 Run these steps in order. Each can halt and ask the user a question; halting is the correct behavior when the upstream material isn't there.
 
-### 1. Check the upstream conditions
+### 1. Elicit the upstream conditions, then halt on gaps
 
-Before drafting anything, confirm the user can name three things:
+The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decider who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
 
-- The specific deal outcome a successful eval will drive — sign a contract, fund a rollout, replace the incumbent. Not "review results" or "consider next steps."
-- The named person who will drive it.
-- A date or business event that anchors the decision (a board review, a renewal, a budget cycle).
+**How to elicit.** Use Claude's built-in `AskUserQuestion` tool. It presents 2-4 clickable options per question, automatically appends a free-text "Other" field, and accepts up to four questions in one call. Make a single call with three questions, one per upstream item. `multiSelect` stays off — each question wants one answer. Do not add an "Other" option manually; the tool provides it.
 
-If any of the three is missing, halt. Tell the user: *"The eval isn't ready to plan yet — the gap is upstream, in discovery. Pin the business decision with the sponsor and AE before drafting further."* Offer to help frame the discovery question. Do not paper over the gap with a generic plan.
+**Suggested question shape.** Concrete options should match the kind of eval the SE described — adapt them. The escape-hatch options are fixed and exist because honest gap-reporting is more useful than guessed answers.
+
+| Question | Concrete options (illustrative — adapt to the eval) | Escape-hatch options |
+|---|---|---|
+| What specific deal outcome will a successful eval drive? | Sign a contract / master agreement · Fund a rollout / pilot expansion · Replace the incumbent | Sponsor hasn't named the deal outcome yet |
+| Who is the named decider — the person who will drive that outcome? | Project sponsor (verbally confirmed) · VP / exec sponsor above the project sponsor | Sponsor likely, not yet confirmed · Decider above sponsor, unnamed |
+| What date or business event anchors the decision? | Board review on [date] · Renewal cycle ending [date] · Budget close / Q-end planning | No hard date — eval is open-ended |
+
+**Escape-hatches are gap signals, not approvals.** Selecting one identifies *which* upstream item is gapped; it does not let the SE skip the gate. If the SE picks "Other" and the free-text answer is itself fuzzy — any synonym of "validate the approach," "demonstrate value," "prove the technology," or "build the case" — treat that answer as an escape-hatch selection on that item. Fuzz on the deal-outcome answer is the Unaimed Evaluation trigger arriving early; do not let it through.
+
+**Targeted halt messages.** For each gapped item, surface the corresponding halt verbatim. Multiple gaps → surface multiple halts. Do not summarize, do not soften.
+
+- *Deal outcome gap:* "The eval needs a specific deal outcome before kickoff. Without one, the eval produces results everyone agrees are interesting and no one acts on. The discovery question to bring back to the sponsor and AE: *'What changes for the business if this eval lands — sign what, fund what, replace what?'* Get the answer in their words, not paraphrased. Loop back when you have it."
+
+- *Decider gap:* "The decider isn't pinned. The eval can't safely begin without the named person who walks out of wrap-up with a signed action. The discovery question to bring to the AE: *'When the eval lands successfully, who specifically signs / funds / approves? Is that the sponsor, or does authority sit above them?'* Get them on the wrap-up calendar before kickoff. If authority kicks up, that's the upstream gap — surface it now, not later."
+
+- *Date / business-event gap:* "The eval has no date anchor. Open-ended evals lose momentum, miss the window, and end without deciding anything. The discovery question to bring back to the sponsor: *'What business event is this decision feeding into — a board review, a renewal, a budget cycle, a compliance deadline? Is there a date for that event?'* If the answer is 'nothing specific,' the deal isn't being prioritized internally — that itself is the finding, and the AE should know."
+
+**Partial-plan fallback.** After surfacing the targeted halt(s), the SE may want a working draft to iterate on while they close the gap offline. Honor that — but surface the gap first; never offer the partial as a way to skip the halt. The partial plan carries the gapped field(s) marked `[NEEDS: <gap statement>]` (the same convention used in Step 2). State at the top of the output that the plan is partial and not ready to walk into the planning meeting with. The Quality Checklist will flag the unfilled field on the way out — that flag is the point.
+
+Only proceed to Step 2 when all three items are answered concretely, or when the SE has explicitly acknowledged the gap(s) and asked for the partial-plan fallback.
 
 ### 2. Draft the six fields
 
@@ -130,6 +148,7 @@ Then append:
 Verify each item before delivering. If any fails, fix it or surface the gap to the user with a halt message — do not silently ship a plan with a hole.
 
 - Business decision sentence is present and contains all four parts: observable outcome, decider, deal outcome, date.
+- If the plan carries any `[NEEDS: ...]` markers, the output explicitly states it is partial and not ready for the planning meeting. The gap statement matches the targeted halt the SE acknowledged in Step 1.
 - Every success criterion is binary. No "improve," "demonstrate," "validate," "approach," or "evaluate" verbs.
 - Success criteria list has 3–5 entries.
 - Scope-out list is non-empty. An empty list is a Two-Week Flame trigger.
