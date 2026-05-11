@@ -1,0 +1,13 @@
+{
+  "name": "solutions-engineering-plugins",
+  "owner": {
+    "name": "nmelo"
+  },
+  "plugins": [
+    {
+      "name": "solutions-engineering",
+      "source": "./solutions-engineering",
+      "description": "Drafts evaluation plans for solutions engineers — business decision, binary success criteria, scope guardrails, stakeholders, validation environment, timeline."
+    }
+  ]
+}
