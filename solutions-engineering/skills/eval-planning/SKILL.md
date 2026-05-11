@@ -31,7 +31,7 @@ Run these steps in order. Each can halt and ask the user a question; halting is 
 
 ### 1. Elicit the upstream conditions, then halt on gaps
 
-The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decider who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
+The skill needs three answers locked in before drafting: (a) the specific deal outcome a successful eval will drive, (b) the named decision-maker who will drive it, (c) the date or business event the decision is feeding into. Run a two-beat structure — elicit answers from the SE first, then surface a targeted halt for whichever items come back fuzzy. Do not draft until the three items are concrete, or the SE has explicitly acknowledged the gap(s) and asked for a partial plan.
 
 **How to elicit.** Use Claude's built-in `AskUserQuestion` tool. It presents 2-4 clickable options per question, automatically appends a free-text "Other" field, and accepts up to four questions in one call. Make a single call with three questions, one per upstream item. `multiSelect` stays off — each question wants one answer. Do not add an "Other" option manually; the tool provides it.
 
@@ -40,7 +40,7 @@ The skill needs three answers locked in before drafting: (a) the specific deal o
 | Question | Concrete options (illustrative — adapt to the eval) | Escape-hatch options |
 |---|---|---|
 | What specific deal outcome will a successful eval drive? | Sign a contract / master agreement · Fund a rollout / pilot expansion · Replace the incumbent | Sponsor hasn't named the deal outcome yet |
-| Who is the named decider — the person who will drive that outcome? | Project sponsor (verbally confirmed) · VP / exec sponsor above the project sponsor | Sponsor likely, not yet confirmed · Decider above sponsor, unnamed |
+| Who is the named decision-maker — the person who will drive that outcome? | Project sponsor (verbally confirmed) · VP / exec sponsor above the project sponsor | Sponsor likely, not yet confirmed · Decision-maker above sponsor, unnamed |
 | What date or business event anchors the decision? | Board review on [date] · Renewal cycle ending [date] · Budget close / Q-end planning | No hard date — eval is open-ended |
 
 **Escape-hatches are gap signals, not approvals.** Selecting one identifies *which* upstream item is gapped; it does not let the SE skip the gate. If the SE picks "Other" and the free-text answer is itself fuzzy — any synonym of "validate the approach," "demonstrate value," "prove the technology," or "build the case" — treat that answer as an escape-hatch selection on that item. Fuzz on the deal-outcome answer is the Unaimed Evaluation trigger arriving early; do not let it through.
@@ -49,7 +49,7 @@ The skill needs three answers locked in before drafting: (a) the specific deal o
 
 - *Deal outcome gap:* "The eval needs a specific deal outcome before kickoff. Without one, the eval produces results everyone agrees are interesting and no one acts on. The discovery question to bring back to the sponsor and AE: *'What changes for the business if this eval lands — sign what, fund what, replace what?'* Get the answer in their words, not paraphrased. Loop back when you have it."
 
-- *Decider gap:* "The decider isn't pinned. The eval can't safely begin without the named person who walks out of wrap-up with a signed action. The discovery question to bring to the AE: *'When the eval lands successfully, who specifically signs / funds / approves? Is that the sponsor, or does authority sit above them?'* Get them on the wrap-up calendar before kickoff. If authority kicks up, that's the upstream gap — surface it now, not later."
+- *Decision-maker gap:* "The decision-maker isn't pinned. The eval can't safely begin without the named person who walks out of wrap-up with a signed action. The discovery question to bring to the AE: *'When the eval lands successfully, who specifically signs / funds / approves? Is that the sponsor, or does authority sit above them?'* Get them on the wrap-up calendar before kickoff. If authority kicks up, that's the upstream gap — surface it now, not later."
 
 - *Date / business-event gap:* "The eval has no date anchor. Open-ended evals lose momentum, miss the window, and end without deciding anything. The discovery question to bring back to the sponsor: *'What business event is this decision feeding into — a board review, a renewal, a budget cycle, a compliance deadline? Is there a date for that event?'* If the answer is 'nothing specific,' the deal isn't being prioritized internally — that itself is the finding, and the AE should know."
 
@@ -61,12 +61,12 @@ Only proceed to Step 2 when all three items are answered concretely, or when the
 
 Fill each field against the user's situation. If material for a field is missing, mark it `[NEEDS: <what's missing>]` rather than inventing content.
 
-- **Business decision** — one sentence, in the form: `If [observable outcome] is true at wrap-up, [named decider] will [specific deal outcome] by [date].` Every other field exists to make this sentence resolvable.
+- **Business decision** — one sentence, in the form: `If [observable outcome] is true at wrap-up, [named decision-maker] will [specific deal outcome] by [date].` Every other field exists to make this sentence resolvable.
 - **Binary success criteria** — three to five pass/fail items. Each names a specific behavior under named conditions, runs against the customer's own data and environment, and resolves to true or false without interpretation. *"Improves auth speed"* is not a criterion. *"Completes the auth flow against the customer's top-five enterprise applications in their staging tenant with sub-second latency at the 95th percentile"* is.
 - **Scope guardrails** — items explicitly out of scope, each with a one-line reason. Items the customer asked about during discovery that aren't on the path to the business decision go here, paired with where they go instead ("parked for post-purchase rollout," "covered in a separate workstream"). The SE walks in with this list already drafted; it makes scope creep harder.
 - **Stakeholders** — every name has three attached items: role label (security, IT, identity, compliance, app owner, exec sponsor), stated interest (what they need the eval to show before they sign off), and the specific checkpoint or wrap-up they will be in the room for. `TBD` is not acceptable; flag the gap. The project sponsor stays on through wrap-up — confirmed verbally, not over email. The security or risk owner is named explicitly; their absence is the most common reason a technical win does not convert.
 - **Validation environment** — integration surface (every named system the product will touch, by category and version), auth flow path (direction, credentials, boundaries), test data set (real users, test users, anonymized production, synthetic — be specific), and sandbox-vs-production posture. *"Their stack"* is not a description. Production is the second event, after the sandbox tests pass.
-- **Timeline and checkpoints** — kickoff within one week of the planning meeting; wrap-up two to three weeks after kickoff, never longer, with the decider attending; checkpoints every two to three days, not "as needed"; same-day internal recap with the AE.
+- **Timeline and checkpoints** — kickoff within one week of the planning meeting; wrap-up two to three weeks after kickoff, never longer, with the decision-maker attending; checkpoints every two to three days, not "as needed"; same-day internal recap with the AE.
 
 ### 3. Run the four detectors
 
@@ -93,7 +93,7 @@ Produce the plan as a markdown block the SE can paste into the eval-management t
 # Eval Plan — [Customer]
 
 ## Business decision
-If [observable outcome] is true at wrap-up, [named decider] will [specific deal outcome] by [date].
+If [observable outcome] is true at wrap-up, [named decision-maker] will [specific deal outcome] by [date].
 
 ## Binary success criteria
 1. [Specific behavior, customer environment, measurable threshold.]
@@ -110,7 +110,7 @@ If [observable outcome] is true at wrap-up, [named decider] will [specific deal 
 |---|---|---|---|
 | Project sponsor | [Name] | [What they need to see] | Kickoff, all checkpoints, wrap-up |
 | Security / risk owner | [Name] | [What they need to see] | Kickoff, wrap-up |
-| Decider (exec sponsor) | [Name] | [Business decision above] | Wrap-up |
+| Decision-maker (exec sponsor) | [Name] | [Business decision above] | Wrap-up |
 | [Other role] | [Name] | [Stated interest] | [Meetings] |
 
 ## Validation environment
@@ -122,7 +122,7 @@ If [observable outcome] is true at wrap-up, [named decider] will [specific deal 
 ## Timeline
 - Kickoff: [date, within one week of planning meeting].
 - Checkpoint cadence: every 2–3 days.
-- Wrap-up: [date, ≤3 weeks after kickoff], decider attending.
+- Wrap-up: [date, ≤3 weeks after kickoff], decision-maker attending.
 - Internal AE recap: same day as planning meeting.
 
 ## Detector check
@@ -147,7 +147,7 @@ Then append:
 
 Verify each item before delivering. If any fails, fix it or surface the gap to the user with a halt message — do not silently ship a plan with a hole.
 
-- Business decision sentence is present and contains all four parts: observable outcome, decider, deal outcome, date.
+- Business decision sentence is present and contains all four parts: observable outcome, decision-maker, deal outcome, date.
 - If the plan carries any `[NEEDS: ...]` markers, the output explicitly states it is partial and not ready for the planning meeting. The gap statement matches the targeted halt the SE acknowledged in Step 1.
 - Every success criterion is binary. No "improve," "demonstrate," "validate," "approach," or "evaluate" verbs.
 - Success criteria list has 3–5 entries.
@@ -157,7 +157,7 @@ Verify each item before delivering. If any fails, fix it or surface the gap to t
 - Validation environment specifies sandbox vs. production explicitly.
 - Timeline from kickoff to wrap-up is ≤3 weeks.
 - Checkpoint cadence is ≤3 days.
-- Wrap-up has the decider on the calendar invite.
+- Wrap-up has the decision-maker on the calendar invite.
 - All four detectors have run and their results are noted in the plan.
 - No identifying customer names appear in the plan beyond the customer the SE is working with on this specific eval.
 

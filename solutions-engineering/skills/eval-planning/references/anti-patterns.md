@@ -6,7 +6,7 @@ Run all four on every draft. A plan that fills in the six fields can still die q
 
 ## 1. Unaimed Evaluation — no business-decision sentence
 
-**Trigger.** The plan does not contain a sentence naming the deal outcome a specific decider will drive if a specific result is true. Synonyms that do not count: "validate the approach," "demonstrate value," "prove the technology," "build the case."
+**Trigger.** The plan does not contain a sentence naming the deal outcome a specific decision-maker will drive if a specific result is true. Synonyms that do not count: "validate the approach," "demonstrate value," "prove the technology," "build the case."
 
 **Warning.** *"This eval has no decision attached. It will produce results that everyone agrees are interesting and no one acts on."*
 
@@ -49,7 +49,7 @@ A practical signal: if the SE cannot draw the customer's auth flow on a whiteboa
 
 **Warning.** *"This eval will exceed the customer's attention span. Champions will drift, the sponsor will lose visibility, the SE will spend the back half chasing calendars to make a business case no one remembers."*
 
-**Remediation.** Cut to two weeks if possible, three at the outside. Reduce criteria to three. Move everything that doesn't directly resolve the business decision to a post-purchase rollout list — and *write that list*, so the customer can see their request hasn't been ignored, just sequenced. Book the wrap-up decision meeting at kickoff, with the decider attending. Run checkpoints every two to three days.
+**Remediation.** Cut to two weeks if possible, three at the outside. Reduce criteria to three. Move everything that doesn't directly resolve the business decision to a post-purchase rollout list — and *write that list*, so the customer can see their request hasn't been ignored, just sequenced. Book the wrap-up decision meeting at kickoff, with the decision-maker attending. Run checkpoints every two to three days.
 
 The point of the timebox is not speed for its own sake. The point is that an intense eval forces priority and ends in a decision, while a slow one breeds amnesia.
 

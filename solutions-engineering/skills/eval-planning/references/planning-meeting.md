@@ -16,7 +16,7 @@ Project sponsor and SE. AE attending in a supporting role. Not the broader custo
 |---|---|---|
 | ~30 min | Confirm success criteria | Walk the draft criteria the SE arrived with. Pressure-test each: where's the risk if this passes anyway? What data feeds the pass/fail? Can this be tested in the time allocated? What would the sponsor read as *"this eval is going off the rails"* — name it, then build the early-warning into the checkpoint cadence. |
 | ~40 min | Adjust the plan live, in the tool | The SE is editing the plan record while the sponsor watches. New criteria get typed in; scope items get cut; the timeline shifts as concrete date constraints surface. The deliverable from this part is a plan that exists, in writing, with both parties having watched it being written. The phrase *"let me send you a draft to review"* is the failure mode this part prevents. |
-| ~20 min | Schedule kickoff, checkpoints, wrap-up | Calendar app open. Invites going out. Attendees confirmed. The wrap-up invite goes out with the decider on it. If the decider's calendar conflicts, that's surfaced now, not later. If the sponsor offers to *"send the invites afterward,"* offer to do it together right now — and note any resistance. |
+| ~20 min | Schedule kickoff, checkpoints, wrap-up | Calendar app open. Invites going out. Attendees confirmed. The wrap-up invite goes out with the decision-maker on it. If the decision-maker's calendar conflicts, that's surfaced now, not later. If the sponsor offers to *"send the invites afterward,"* offer to do it together right now — and note any resistance. |
 
 ## After the meeting
 
@@ -43,7 +43,7 @@ A plan that fills in the six fields can still be a plan that dies quietly. The m
 ### Markers the plan is about to die quietly
 
 - *"Let's figure out success criteria as we go."* The plan has not been written; an agenda has been written.
-- The sponsor delegates planning to a technical lead and stops attending. The eval has lost its decider.
+- The sponsor delegates planning to a technical lead and stops attending. The eval has lost its decision-maker, or its line to one.
 - The proposed timeline keeps stretching during the meeting. Six weeks is the universal sign of a sponsor who isn't protecting attention.
 - *"Let's reconvene next week to schedule the checkpoints."* The checkpoints will not be scheduled.
 - The scope list grows monotonically through the meeting. Nothing comes off.
