@@ -33,8 +33,8 @@ Run these steps in order. Each can halt and ask the user a question; halting is 
 
 Before drafting anything, confirm the user can name three things:
 
-- A specific commercial action the business will take if the eval succeeds — sign a contract, fund a rollout, replace the incumbent. Not "review results" or "consider next steps."
-- The named person who will take that action.
+- The specific deal outcome a successful eval will drive — sign a contract, fund a rollout, replace the incumbent. Not "review results" or "consider next steps."
+- The named person who will drive it.
 - A date or business event that anchors the decision (a board review, a renewal, a budget cycle).
 
 If any of the three is missing, halt. Tell the user: *"The eval isn't ready to plan yet — the gap is upstream, in discovery. Pin the business decision with the sponsor and AE before drafting further."* Offer to help frame the discovery question. Do not paper over the gap with a generic plan.
@@ -43,7 +43,7 @@ If any of the three is missing, halt. Tell the user: *"The eval isn't ready to p
 
 Fill each field against the user's situation. If material for a field is missing, mark it `[NEEDS: <what's missing>]` rather than inventing content.
 
-- **Business decision** — one sentence, in the form: `If [observable outcome] is true at wrap-up, [named decider] will [specific commercial action] by [date].` Every other field exists to make this sentence resolvable.
+- **Business decision** — one sentence, in the form: `If [observable outcome] is true at wrap-up, [named decider] will [specific deal outcome] by [date].` Every other field exists to make this sentence resolvable.
 - **Binary success criteria** — three to five pass/fail items. Each names a specific behavior under named conditions, runs against the customer's own data and environment, and resolves to true or false without interpretation. *"Improves auth speed"* is not a criterion. *"Completes the auth flow against the customer's top-five enterprise applications in their staging tenant with sub-second latency at the 95th percentile"* is.
 - **Scope guardrails** — items explicitly out of scope, each with a one-line reason. Items the customer asked about during discovery that aren't on the path to the business decision go here, paired with where they go instead ("parked for post-purchase rollout," "covered in a separate workstream"). The SE walks in with this list already drafted; it makes scope creep harder.
 - **Stakeholders** — every name has three attached items: role label (security, IT, identity, compliance, app owner, exec sponsor), stated interest (what they need the eval to show before they sign off), and the specific checkpoint or wrap-up they will be in the room for. `TBD` is not acceptable; flag the gap. The project sponsor stays on through wrap-up — confirmed verbally, not over email. The security or risk owner is named explicitly; their absence is the most common reason a technical win does not convert.
@@ -75,7 +75,7 @@ Produce the plan as a markdown block the SE can paste into the eval-management t
 # Eval Plan — [Customer]
 
 ## Business decision
-If [observable outcome] is true at wrap-up, [named decider] will [specific commercial action] by [date].
+If [observable outcome] is true at wrap-up, [named decider] will [specific deal outcome] by [date].
 
 ## Binary success criteria
 1. [Specific behavior, customer environment, measurable threshold.]
@@ -129,7 +129,7 @@ Then append:
 
 Verify each item before delivering. If any fails, fix it or surface the gap to the user with a halt message — do not silently ship a plan with a hole.
 
-- Business decision sentence is present and contains all four parts: outcome, decider, action, date.
+- Business decision sentence is present and contains all four parts: observable outcome, decider, deal outcome, date.
 - Every success criterion is binary. No "improve," "demonstrate," "validate," "approach," or "evaluate" verbs.
 - Success criteria list has 3–5 entries.
 - Scope-out list is non-empty. An empty list is a Two-Week Flame trigger.

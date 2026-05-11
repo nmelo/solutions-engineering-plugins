@@ -6,7 +6,7 @@ Run all four on every draft. A plan that fills in the six fields can still die q
 
 ## 1. Unaimed Evaluation — no business-decision sentence
 
-**Trigger.** The plan does not contain a sentence naming the commercial action a specific decider will take if a specific outcome is true. Synonyms that do not count: "validate the approach," "demonstrate value," "prove the technology," "build the case."
+**Trigger.** The plan does not contain a sentence naming the deal outcome a specific decider will drive if a specific result is true. Synonyms that do not count: "validate the approach," "demonstrate value," "prove the technology," "build the case."
 
 **Warning.** *"This eval has no decision attached. It will produce results that everyone agrees are interesting and no one acts on."*
 
