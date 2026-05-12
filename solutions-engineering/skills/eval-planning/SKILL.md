@@ -167,7 +167,7 @@ Each beat applies its mode's structure below.
 >
 > *From the deal shape — [2–3 deal characteristics that anchor the criteria choices, e.g., "passwordless workforce auth at an FSI prospect, security-led board readout as the anchor"] — three earn their place by default:*
 
-**Draft.** Generate three binary criteria from deal shape. Each criterion names a specific behavior under named customer-environment conditions and a measurable threshold. Use concrete verbs (*completes, rejects, achieves, returns, resolves*) — never fuzzy verbs (*demonstrates, validates, approaches, evaluates, improves*). Emit as a block-quoted numbered list of three.
+**Draft.** Generate three binary criteria from deal shape. Each criterion has three structural dimensions worth comparing across rows — *Behavior*, *Conditions*, and *Pass threshold* — so emit as a block-quoted markdown table with columns `# | Behavior | Conditions | Pass threshold`. Use concrete verbs in Behavior (*completes, rejects, achieves, returns, resolves*) — never fuzzy verbs (*demonstrates, validates, approaches, evaluates, improves*). Conditions names the customer-environment specifics; Pass threshold names the measurable binary outcome.
 
 **Confirm.** Ask in prose: *"Any of these wrong for this deal? Want to swap one out, add a fourth, drop to two?"* If the SE wants a change, emit the full updated list of criteria as a block-quote (full re-emit, not just the changed item), then re-ask. Two-iteration safety valve.
 
@@ -188,13 +188,15 @@ Each beat applies its mode's structure below.
 
 > *From the deal shape — [eval type + industry vertical, e.g., "workforce-identity POC in financial services"] — [N] out-of-scope items earn their place by default:*
 
-**Propose-inline (universal defaults from deal shape).** Draft 4–5 universal out-of-scope items as the starting list. For workforce-identity POCs the defaults are: B2B partner authentication, mobile/BYOD endpoints, identity governance/lifecycle automation, custom branding/theming, legacy app migration. For other deal shapes (CIAM, SIEM, EDR, MDM, etc.), adapt the universal defaults to the eval type — Claude infers the 4–5 items most commonly out-of-scope for this kind of eval and emits them with one-line reasons. Emit as a block-quoted bullet list:
+**Propose-inline (universal defaults from deal shape).** Draft 4–5 universal out-of-scope items as the starting list. For workforce-identity POCs the defaults are: B2B partner authentication, mobile/BYOD endpoints, identity governance/lifecycle automation, custom branding/theming, legacy app migration. For other deal shapes (CIAM, SIEM, EDR, MDM, etc.), adapt the universal defaults to the eval type — Claude infers the 4–5 items most commonly out-of-scope for this kind of eval. Each item has three structural dimensions — *Item*, *Reason*, *Where it goes* — so emit as a block-quoted markdown table:
 
-> – B2B partner authentication (federated identity) — post-purchase rollout workstream; outside the IT-pain-reduction storyline driving this eval.
-> – Mobile / BYOD endpoints — corp-managed devices only for v1; mobile is Phase 2.
-> – Identity governance / lifecycle automation — separate product line, separate eval cycle.
-> – Custom branding / theming — post-purchase polish workstream.
-> – Legacy app migration (apps that need rebuilding) — Phase 2 integration scope.
+> | Item | Reason | Where it goes |
+> |---|---|---|
+> | B2B partner authentication (federated identity) | Outside the IT-pain-reduction storyline driving this eval | Post-purchase rollout workstream |
+> | Mobile / BYOD endpoints | Corp-managed devices only for v1 | Phase 2 |
+> | Identity governance / lifecycle automation | Separate product line | Separate eval cycle |
+> | Custom branding / theming | Post-purchase polish | Separate workstream |
+> | Legacy app migration (apps that need rebuilding) | Phase 2 integration scope | Phase 2 |
 
 **Fallback to ask-then-draft.** If deal shape doesn't suggest universal defaults — rare; the SE may have triggered with too little context to infer the vertical and eval type — fall back to ask-then-draft using §2.3 of `references/per-field-questions.md`. The fallback preserves the field's structural shape without runtime improvisation on the option set.
 
@@ -204,14 +206,14 @@ Each beat applies its mode's structure below.
 
 The SE responds with additions, removals, or in-scope-by-exception markers.
 
-**Draft.** Update the list based on the SE's response:
-- Add scenario-specific items as new bullets with one-line reasons.
-- Move in-scope-by-exception items to the bottom of the list with `[In-scope by exception]` and the sponsor's discovery rationale.
-- Remove any universal defaults the SE explicitly rejected (e.g., if the deal does cover mobile, drop mobile/BYOD).
+**Draft.** Update the table based on the SE's response:
+- Add scenario-specific items as new rows with Item / Reason / Where it goes filled in.
+- For in-scope-by-exception items, prefix the Item cell with `**In-scope by exception:**` and put the sponsor's discovery rationale in the Reason cell. Place these rows at the bottom of the table.
+- Remove rows for any universal defaults the SE explicitly rejected (e.g., if the deal does cover mobile, drop the Mobile / BYOD endpoints row).
 
 **NEEDS path.** If the SE can't enumerate scenario-specific items because the in-scope picture isn't pinned (e.g., *"sponsor hasn't said what's in, can't say what's out"*), the field carries `[NEEDS: scope boundaries from sponsor]` — the gap is upstream. The universal defaults still ride into the plan; the NEEDS marker says "this list is partial." Empty out-of-scope lists where the SE explicitly removed every universal default without adding anything are a different state: a Two-Week Flame trigger — surface that warning before locking the field.
 
-**Confirm.** Ask in prose: *"Does this cover what the sponsor asked about that doesn't belong in this eval? Anything missing or mis-categorized?"* If the SE wants a change, emit the full updated list as a block-quote (full re-emit, including universal defaults plus SE additions), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.4 on confirmation.
+**Confirm.** Ask in prose: *"Does this cover what the sponsor asked about that doesn't belong in this eval? Anything missing or mis-categorized?"* If the SE wants a change, emit the full updated table as a block-quote (full re-emit, including universal defaults plus SE additions), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.4 on confirmation.
 
 #### 2.4 Stakeholders
 
@@ -247,7 +249,7 @@ If Empty Chair did not pre-fire (security/risk was picked or the engagement span
 
 > *Got it. Drafting the stakeholder table with role, stated interest, and committed meeting per named contact.*
 
-**Draft.** Emit the stakeholder table as a block-quoted markdown table with four columns: Role | Name | Stated interest | Committed to. Each row has all four cells filled or marked with explicit gap notation. Any role that fired the Empty Chair detector goes in the table with `**NEEDS: name from sponsor by planning meeting**` in the Name cell; the warning rides into Step 3 (structural detector check) too — defense in depth. If the SE accepted the sponsor-facing ask, emit it after the table as a block-quoted italicized paragraph.
+**Draft.** Emit the stakeholder table as a block-quoted markdown table with four columns: Role | Name | Stated interest | Committed to. Each row has all four cells filled or marked with explicit gap notation. Any role that fired the Empty Chair detector goes in the table with `**NEEDS: name from sponsor by planning meeting**` in the Name cell; the warning rides into Step 3 (structural failure-mode check) too — defense in depth. If the SE accepted the sponsor-facing ask, emit it after the table as a block-quoted italicized paragraph.
 
 **Confirm.** Ask in prose: *"Each role has a named person, a stated interest, and a meeting they're committed to. Anyone missing or any `TBD` we need to close before kickoff?"* If the SE wants a change, emit the full updated table as a block-quote (full re-emit), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.5.
 
@@ -261,22 +263,24 @@ If Empty Chair did not pre-fire (security/risk was picked or the engagement span
 
 **Propose-inline POSTURE (sandbox-first as discipline-aligned default).** Emit the explanation bridge naming the posture:
 
-> *Sandbox-first locks in — that's the Sandboxed Proof discipline; the eval runs in your mirror of [customer]'s stack before anything touches their production. I'll draft the four sub-items now, marking any specifics you don't have yet as NEEDS:*
+> *Sandbox-first locks in — the eval runs in your mirror of [customer]'s stack before anything touches their production. That discipline is what prevents the production-shortcut failure mode. I'll draft the four sub-items now, marking any specifics you don't have yet as NEEDS:*
 
 **Detector pre-fire branch (Sandboxed Proof).** Sandbox-first is the proposed default. If the SE explicitly overrides the posture in prose (e.g., *"we don't have time for a sandbox, going straight to production"* or *"customer wants this in their prod tenant"*) — Sandboxed Proof is pre-triggering. Surface its warning from `references/anti-patterns.md` §3 in-beat before drafting; the warning rides into the field itself. Do not soften the warning even if the SE asserts production-first; that resistance is exactly what the detector is meant to surface.
 
-**Ask-for-sub-item-specifics (prose, NOT AskUserQuestion).** After the posture lands, draft the four sub-items as a block-quoted bullet list. For each sub-item the SE hasn't specified in accumulated context, ask one prose follow-up incorporated inline — typical asks: *"Which identity provider?"*, *"Which app set?"*, *"Real users or synthetic test accounts?"*. Substitute the SE's answers into the bullet list as they arrive. Any sub-item the SE can't name carries `[NEEDS: <specific piece>]` in the bullet.
+**Ask-for-sub-item-specifics (prose, NOT AskUserQuestion).** After the posture lands, draft the four sub-items as a block-quoted markdown table. For each sub-item the SE hasn't specified in accumulated context, ask one prose follow-up incorporated inline — typical asks: *"Which identity provider?"*, *"Which app set?"*, *"Real users or synthetic test accounts?"*. Substitute the SE's answers into the table cells as they arrive. Any sub-item specific the SE can't name carries `[NEEDS: <specific piece>]` inline in its Specifics cell.
 
-**Draft.** Emit the four sub-items as one block-quoted bullet list:
+**Draft.** Each sub-item has two structural dimensions — *Sub-item* (the labeled aspect) and *Specifics* (the named systems, paths, data, or posture) — so emit as a block-quoted markdown table with columns `Sub-item | Specifics`:
 
-> – **Integration surface:** [customer]'s identity provider [NEEDS or named], top-five enterprise apps via SAML/OIDC [NEEDS or named app list], corp-managed endpoints, their SIEM connector [NEEDS or named].
-> – **Auth flow path:** end-user → device passkey → identity provider → app via SAML/OIDC. Boundary crossings: device-to-IdP (cloud), IdP-to-app (cloud).
-> – **Test data:** [pilot cohort details — count + business unit, or NEEDS]; no production user data; phishing simulation runs against test accounts only.
-> – **Sandbox vs. production:** SE-prepared sandbox mirroring [customer]'s IdP and the top-five apps in their staging tenant. Production only after sandbox passes; staged rollout, never broader during the eval.
+> | Sub-item | Specifics |
+> |---|---|
+> | Integration surface | [customer]'s identity provider [NEEDS: vendor + version with their IT]; top-five enterprise apps via SAML/OIDC [NEEDS: app list from inventory]; corp-managed Windows + macOS endpoints; SIEM connector [NEEDS: vendor] |
+> | Auth flow path | end-user → device passkey → identity provider → app via SAML/OIDC. Boundary crossings: device-to-IdP (cloud), IdP-to-app (cloud) |
+> | Test data | pilot cohort of 50 users from a single business unit [NEEDS: which unit]; no production user data; phishing simulation runs against test accounts only |
+> | Sandbox vs. production | SE-prepared sandbox mirroring [customer]'s IdP and the top-five apps in their staging tenant. Production only after sandbox passes; staged rollout, never broader during the eval |
 
 **Operational test (post-draft, before confirm).** Surface one line: *"One operational test before the planning meeting — if you can't draw [customer]'s auth flow on a whiteboard from memory, technical discovery isn't finished. Finish it before walking in with this section."*
 
-**Confirm.** Ask in prose: *"Does this match the environment we'll actually be testing in? Anything in the integration surface or auth flow that's still loose?"* If the SE wants a change, emit the full updated field as a block-quote (full re-emit of all four sub-items), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.6.
+**Confirm.** Ask in prose: *"Does this match the environment we'll actually be testing in? Anything in the integration surface or auth flow that's still loose?"* If the SE wants a change, emit the full updated table as a block-quote (full re-emit of all four sub-items as table rows), then re-ask. Two-iteration safety valve. Lock the field and proceed to 2.6.
 
 #### 2.6 Timeline and checkpoints
 
@@ -324,16 +328,18 @@ Then emit the two protective phrases for the planning meeting. Each as a block-q
 
 **Confirm.** Ask in prose: *"Kickoff date, checkpoint cadence, wrap-up date with decision-maker, AE recap same day. Anything stretching past three weeks, or any date that needs a calendar check before we run detectors?"* If the SE wants a change, emit the full updated timeline as a block-quote (full re-emit, including the protective phrases), then re-ask. Two-iteration safety valve. Once locked, proceed to Step 3 — run the four detectors against the completed draft.
 
-### 3. Run the four detectors
+### 3. Run the four failure-mode checks
 
-Walk the draft against each detector in `references/anti-patterns.md` and surface any that fire. Each detector has a trigger condition, a warning to put in front of the user, and a concrete remediation — surface all three when a detector fires. Do not soften the warning text; the bluntness is the point. The detectors are:
+Walk the draft against each failure-mode check in `references/anti-patterns.md` and surface any that fire. Each check has a trigger condition, a warning to put in front of the user, and a concrete remediation — surface all three when a check fires. Do not soften the warning text; the bluntness is the point. The four checks (with their internal-traceability koan names in parentheses):
 
-- Unaimed Evaluation — the plan has no business-decision sentence.
-- Empty Chair — the stakeholder list shows only one organizational function.
-- Sandboxed Proof — non-trivial deployment goes straight to customer production.
-- Two-Week Flame — timeline exceeds three weeks, or criteria exceed five.
+- **Decision gap** *(unaimed eval)* — the plan has no business-decision sentence.
+- **Risk audience gap** *(empty chair)* — the stakeholder list shows only one organizational function.
+- **Production-shortcut** *(sandboxed proof)* — non-trivial deployment goes straight to customer production.
+- **Slipping timeline** *(two-week flame)* — timeline exceeds three weeks, or criteria exceed five.
 
-**Detector status values.** Each detector resolves to one of four statuses, recorded in the plan's Detector check section:
+In the markdown emit, the descriptive labels are primary; the koan parenthetical accompanies only the two less-self-descriptive labels (Decision gap, Risk audience gap) for source-traceability. Production-shortcut and Slipping timeline stand alone.
+
+**Failure-mode check status values.** Each check resolves to one of four statuses, recorded in the plan's Failure-mode check section:
 
 - **PASS** — no trigger condition met; the discipline this detector enforces is intact in the draft.
 - **FAIL** — trigger condition met; emit the warning + remediation. The plan ships with this finding visible.
@@ -350,18 +356,27 @@ The plan lands in the eval-management tool with the sponsor watching, inside a 9
 
 Use the Output Format below. After the plan, write the Planning meeting section. Then run the Quality Checklist before delivering. Once the markdown plan emits and the SE confirms, proceed to Step 6 — the PDF render offer.
 
-### 6. Offer the PDF render
+### 6. Offer the shareable PDF render
 
-After the markdown plan emits and the SE has confirmed, the skill offers a polished PDF render via Typst. The PDF is an additional artifact — the markdown above stays paste-ready regardless.
+After the markdown plan emits and the SE has confirmed, the skill offers a *shareable* PDF render via Typst. **Shareable is the load-bearing word.** The markdown above is the SE's internal-working copy — pasted into the eval-management tool, NEEDS markers visible, failure-mode check rides along for the SE's own QA. The PDF is the artifact the SE actually sends to the sponsor, the security counterpart, or the exec audience — different audience, different content.
+
+What the shareable PDF differs from the markdown on:
+
+- **Cover block** at the top: customer name, plan status (Draft pre-kickoff, Final post-kickoff), prepared date, planning-meeting date, plan version. None of this is in the markdown.
+- **NEEDS markers** in body prose become `TBD`; the gaps move to an **Open Items** appendix at the end of the PDF. The inline `[NEEDS: <what>]` form is internal-only.
+- **Failure-mode check section** is **omitted entirely** from the PDF. That section is the SE's internal QA; showing it to the sponsor signals doubt about a plan the sponsor is being asked to sign onto.
+- **Descriptive labels only** (Decision gap, Risk audience gap, Production-shortcut, Slipping timeline) wherever they appear at all in the PDF — typically only in the Open Items appendix if a failure-mode-related action item rides along. **Never** koan names (Empty Chair, Two-Week Flame, Sandboxed Proof, Unaimed Evaluation) in a doc the sponsor sees.
+- **Fixed table column widths**, especially stakeholder (Role narrow, Name medium, Stated interest wide, Committed to narrow) — sized to prevent paragraph-shape content wrapping into vertical-letter-stacks.
+- **Single-page stakeholder block** where possible; if it must break, audience-grouped (sponsor + decision-maker on page 1, security + compliance on page 2), not row-broken.
 
 **Check typst availability first.** Run `command -v typst` via Bash. Branch on the result:
 
 - **If typst is installed** (command returns a path, exit 0): emit the offer (text below).
-- **If typst is absent** (command returns nothing, exit 1): do not emit the render offer. Instead, append one short line to the conversation, after the markdown plan: *"PDF render via Typst is available if you install typst — see [typst.app](https://typst.app) for install instructions."* The skill is complete; the markdown plan stands on its own.
+- **If typst is absent** (command returns nothing, exit 1): do not emit the render offer. Instead, append one short line to the conversation, after the markdown plan: *"Shareable PDF render via Typst is available if you install typst — see [typst.app](https://typst.app) for install instructions."* The skill is complete; the markdown plan stands on its own as the internal-working copy.
 
 **If typst is available, emit the offer:**
 
-> *Want a PDF version too? I can render this via Typst — useful if you need to share the plan with someone outside the eval-management tool, or want a polished version for the sponsor or exec audience. The markdown above stays paste-ready either way.*
+> *Want a shareable PDF version too? The markdown above is your internal-working copy (paste into the eval-management tool, NEEDS markers stay visible, failure-mode check rides along). The PDF is what you'd actually send to the sponsor or share with the exec audience — cover block, NEEDS-markers cleaned up as TBD-with-open-items, no internal QA section. I can render it via Typst.*
 
 **If the SE accepts, render:**
 
@@ -373,11 +388,15 @@ After the markdown plan emits and the SE has confirmed, the skill offers a polis
    - Strip leading and trailing hyphens.
    - Example: *"Globex Federal Bank"* → `globex-federal-bank`.
 3. **Fallback.** If the customer name is missing or thread-specifics didn't capture it, derive the slug from today's date as `eval-plan-YYYY-MM-DD` (e.g., `eval-plan-2026-05-11`). Do not block the render on a missing customer name.
-4. Substitute the plan's field values into the template's placeholder markers (`{{customer_name}}`, `{{business_decision}}`, `{{criteria}}`, `{{scope_items}}`, `{{stakeholder_table}}`, `{{validation_env}}`, `{{timeline}}`, `{{detector_check}}`).
-5. Save the substituted source as `eval-plan-<customer-slug>.typ`.
-6. Run `typst compile eval-plan-<customer-slug>.typ eval-plan-<customer-slug>.pdf` via Bash.
-7. **On success,** confirm: *"Done. `eval-plan-<customer-slug>.pdf` is saved alongside this conversation. The markdown above is still paste-ready for the eval-management tool; the PDF is for anywhere else you need to share it."*
-8. **On `typst compile` failure** (template syntax error, missing fonts, etc.), surface the stderr and offer to share the `.typ` source so the SE can compile elsewhere: *"typst compile failed: [error]. The `.typ` source is saved if you'd like to compile it elsewhere, or share me the error and I can adjust."*
+4. **Determine plan status.** Default to *"Draft — to be confirmed at planning meeting on [planning-meeting-date]"* for any first emit before kickoff. If the SE indicates kickoff has happened and they're re-rendering a finalized plan, use *"Final — agreed at planning meeting [planning-meeting-date]"*.
+5. **Substitute cover-block fields** into the template: `{{customer_name}}`, `{{status_line}}`, `{{prepared_date}}` (today's date), `{{planning_meeting_date}}` (from thread-specifics + AE context; if unknown, leave as `[TBD]`), `{{plan_version}}` (default `v0.1 — Draft`).
+6. **Substitute body fields**: `{{business_decision}}`, `{{criteria}}` (success criteria rows), `{{scope_items}}` (scope rows), `{{stakeholder_table}}` (stakeholder rows), `{{validation_env}}` (validation env rows), `{{timeline}}` (timeline bullets). **Do not substitute any failure-mode-check content** — the template omits that section entirely.
+7. **Transform NEEDS markers in body cells.** For every `[NEEDS: <what>]` in the markdown's field contents, replace with `TBD` in the corresponding PDF cell. Collect each gap into the Open Items appendix data with three fields: *Field of origin*, *Item* (the `<what>`), *Action to close* (derived from the related discovery question or detector remediation if any; otherwise the SE's stated path to close, or "Confirm with [appropriate party]" as a generic fallback).
+8. **Substitute `{{open_items}}`** with the collected gap table. If zero NEEDS markers were collected, substitute the marker with an empty string — the template's Open Items section omits entirely when empty.
+9. Save the substituted source as `eval-plan-<customer-slug>.typ`.
+10. Run `typst compile eval-plan-<customer-slug>.typ eval-plan-<customer-slug>.pdf` via Bash.
+11. **On success,** confirm: *"Done. `eval-plan-<customer-slug>.pdf` is saved alongside this conversation — cover, body, Open Items appendix. The markdown above stays as your internal-working copy."*
+12. **On `typst compile` failure** (template syntax error, missing fonts, etc.), surface the stderr and offer to share the `.typ` source: *"typst compile failed: [error]. The `.typ` source is saved if you'd like to compile it elsewhere, or share me the error and I can adjust. The markdown above is still paste-ready as your internal-working copy."*
 
 ### 7. Close with specific next moves and the landing signal
 
@@ -393,7 +412,7 @@ Emit as an ordered list under a heading naming the count: "Two things to close b
 
 **Paragraph 2 — Landing signal.** One sentence naming the live signal the SE should watch for in the planning meeting itself. Pick from `references/planning-meeting.md` the "landing" signal most relevant to this specific plan's NEEDS markers and detector findings — typically the marker that would close the biggest open gap.
 
-Example (for a plan with an Empty Chair gap + validation NEEDS markers):
+Example (for a plan with a risk-audience gap + validation NEEDS markers):
 
 > *Two things to close before the planning meeting:*
 >
@@ -415,14 +434,20 @@ Produce the plan as a markdown block the SE can paste into the eval-management t
 If [observable outcome] is true at wrap-up, [named decision-maker] will [specific deal outcome] by [date].
 
 ## Binary success criteria
-1. [Specific behavior, customer environment, measurable threshold.]
-2. [...]
-3. [...]
-(Three to five total. More than five is a Two-Week Flame trigger.)
+| # | Behavior | Conditions | Pass threshold |
+|---|---|---|---|
+| 1 | [Specific behavior] | [Named customer-environment conditions] | [Measurable threshold] |
+| 2 | [...] | [...] | [...] |
+| 3 | [...] | [...] | [...] |
+
+(Three to five rows total. More than five risks stretching the eval past the safe window.)
 
 ## Scope guardrails (out of scope)
-- [Item] — [one-line reason it's excluded; where it goes instead].
-- [Item] — [one-line reason].
+| Item | Reason | Where it goes |
+|---|---|---|
+| [Item] | [One-line reason it's excluded] | [Post-purchase rollout / Phase 2 / separate workstream] |
+| [Item] | [Reason] | [Where] |
+| **In-scope by exception:** [Item] | [Sponsor's discovery rationale] | In-scope — verify integration |
 
 ## Stakeholders
 | Role | Name | Stated interest | Committed to |
@@ -433,10 +458,12 @@ If [observable outcome] is true at wrap-up, [named decision-maker] will [specifi
 | [Other role] | [Name] | [Stated interest] | [Meetings] |
 
 ## Validation environment
-- Integration surface: [named systems, categories, versions].
-- Auth flow path: [direction, credentials, boundaries crossed].
-- Test data: [real / test / anonymized / synthetic — named].
-- Sandbox vs. production: sandbox first, prepared by the SE, mirroring the customer's stack. Production only after sandbox passes, in stages.
+| Sub-item | Specifics |
+|---|---|
+| Integration surface | [Named systems, categories, versions] |
+| Auth flow path | [Direction, credentials, boundaries crossed] |
+| Test data | [Real / test / anonymized / synthetic — named] |
+| Sandbox vs. production | Sandbox first, SE-prepared, mirroring the customer's stack. Production only after sandbox passes, in stages. |
 
 ## Timeline
 - Kickoff: [date, within one week of planning meeting].
@@ -444,11 +471,13 @@ If [observable outcome] is true at wrap-up, [named decision-maker] will [specifi
 - Wrap-up: [date, ≤3 weeks after kickoff], decision-maker attending.
 - Internal AE recap: same day as planning meeting.
 
-## Detector check
-- Unaimed Evaluation: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
-- Empty Chair: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
-- Sandboxed Proof: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
-- Two-Week Flame: [PASS / FAIL / PASS (qualified) / PASS (watch) — note].
+## Failure-mode check
+| Check | Status | Detail |
+|---|---|---|
+| Decision gap (unaimed eval) | [PASS / FAIL / PASS (qualified) / PASS (watch)] | [Note: what's intact or what fired] |
+| Risk audience gap (empty chair) | [PASS / FAIL / PASS (qualified) / PASS (watch)] | [Note] |
+| Production-shortcut | [PASS / FAIL / PASS (qualified) / PASS (watch)] | [Note] |
+| Slipping timeline | [PASS / FAIL / PASS (qualified) / PASS (watch)] | [Note] |
 ```
 
 Then append:
